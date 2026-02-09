@@ -1,39 +1,88 @@
-import 'package:aiservicewebsite/mainhome.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'theme.dart';
+import 'widgets/navigation.dart';
+import 'widgets/footer.dart';
+import 'pages/home_page.dart';
+import 'pages/services_page.dart';
+import 'pages/solutions_page.dart';
+import 'pages/about_page.dart';
+import 'pages/contact_page.dart';
+import 'services/supabase_service.dart';
 
-void main() {
-  runApp( MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SupabaseService.initialize();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  const MyApp({Key? key}) : super(key: key);
 
   @override
-  // ignore: non_constant_identifier_names
   Widget build(BuildContext context) {
     return MaterialApp(
-  debugShowCheckedModeBanner: false,
-  theme: ThemeData(
-    brightness: Brightness.dark,
+      title: 'Dart Language - AI Solutions & Services',
+      theme: AppTheme.darkTheme(),
+      home: const MainPage(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
 
-    // 1. Setting Roboto Mono as the base for the entire app
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
 
-    // textTheme: GoogleFonts.robotoMonoTextTheme(
-    //   ThemeData.dark().textTheme, // Base it on the dark theme
-    // ).copyWith(
-    //   // 2. Overriding ONLY displayLarge with your specific style
-    //   displayLarge: TextStyle(
-    //     fontSize: 20,
-    //     color: Colors.deepOrange,
-    //     letterSpacing: 2,
-    //     fontWeight: FontWeight.bold,
-    //   ),
-    // ),
-  ),
-  home: const Mainhome(),
-);
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
 
-  
+class _MainPageState extends State<MainPage> {
+  String _currentPage = 'home';
+
+  void _navigateTo(String page) {
+    setState(() => _currentPage = page);
+    // Scroll to top when navigating
+    Scrollable.of(context).position.animateTo(
+      0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  Widget _buildPage() {
+    switch (_currentPage) {
+      case 'home':
+        return HomePage(onNavigate: _navigateTo);
+      case 'services':
+        return const ServicesPage();
+      case 'solutions':
+        return const SolutionsPage();
+      case 'about':
+        return const AboutPage();
+      case 'contact':
+        return const ContactPage();
+      default:
+        return HomePage(onNavigate: _navigateTo);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.darkBg,
+      body: Column(
+        children: [
+          Navigation(
+            currentPage: _currentPage,
+            onNavigate: _navigateTo,
+          ),
+          Expanded(
+            child: _buildPage(),
+          ),
+          const Footer(),
+        ],
+      ),
+    );
   }
 }
