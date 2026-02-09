@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'theme.dart';
 import 'widgets/navigation.dart';
-import 'widgets/footer.dart';
 import 'pages/home_page.dart';
 import 'pages/services_page.dart';
 import 'pages/solutions_page.dart';
@@ -22,9 +20,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Dart Language - AI Solutions & Services',
+      title: 'Dazzel - AI Solutions & Services',
       theme: AppTheme.darkTheme(),
-      home: const MainPage(),
+      home: MainPage(),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -55,13 +53,13 @@ class _MainPageState extends State<MainPage> {
       case 'home':
         return HomePage(onNavigate: _navigateTo);
       case 'services':
-        return const ServicesPage();
+        return ServicesPage(onNavigate: _navigateTo);
       case 'solutions':
-        return const SolutionsPage();
+        return SolutionsPage(onNavigate: _navigateTo);
+      case 'contact':
+        return ContactPage(onNavigate: _navigateTo);
       case 'about':
         return const AboutPage();
-      case 'contact':
-        return const ContactPage();
       default:
         return HomePage(onNavigate: _navigateTo);
     }
@@ -73,14 +71,9 @@ class _MainPageState extends State<MainPage> {
       backgroundColor: AppColors.darkBg,
       body: Column(
         children: [
-          Navigation(
-            currentPage: _currentPage,
-            onNavigate: _navigateTo,
-          ),
-          Expanded(
-            child: _buildPage(),
-          ),
-          const Footer(),
+          Navigation(currentPage: _currentPage, onNavigate: _navigateTo),
+          Expanded(child: _buildPage()),
+          // const Footer(),
         ],
       ),
     );

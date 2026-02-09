@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,25 +15,6 @@ class AppColors {
   static const Color borderColorLight = Color(0xFF4B5563);
 }
 
-/// Backwards-compatible icon aliases so existing UI keeps working.
-class OtherIcons {
-  static const IconData award = Icons.military_tech;
-  static const IconData users = Icons.group;
-  static const IconData rocket = Icons.rocket_launch;
-
-  static const IconData mail = Icons.mail_outline;
-  static const IconData phone = Icons.phone_in_talk;
-  static const IconData pin = Icons.location_on_outlined;
-  static const IconData mapPin = Icons.location_on_outlined;
-
-  static const IconData code = Icons.code;
-  static const IconData cloud = Icons.cloud_outlined;
-  static const IconData database = Icons.storage;
-  static const IconData lock = Icons.lock_outline;
-  static const IconData smartphone = Icons.smartphone;
-  static const IconData trendingUp = Icons.trending_up;
-}
-
 class AppTheme {
   static ThemeData darkTheme() {
     return ThemeData(
@@ -47,7 +26,6 @@ class AppTheme {
         primary: AppColors.orange,
         secondary: AppColors.orangeLight,
         surface: AppColors.darkBgSecondary,
-        background: AppColors.darkBg,
         error: Colors.red,
       ),
       textTheme: GoogleFonts.interTextTheme(

@@ -1,9 +1,17 @@
+
+import 'package:aiservicewebsite/widgets/footer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:icons_plus/icons_plus.dart';
 import '../theme.dart';
 
 class ServicesPage extends StatelessWidget {
-  const ServicesPage({Key? key}) : super(key: key);
+
+  final Function(String) onNavigate;
+
+  const ServicesPage({required this.onNavigate});
+  // const ServicesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +20,10 @@ class ServicesPage extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          _HeaderSection(isMobile: isMobile),
+          _HeaderSection(isMobile: isMobile, onNavigate: onNavigate,),
           _ServicesGrid(isMobile: isMobile),
-          _CustomSolutionSection(isMobile: isMobile),
+          _CustomSolutionSection(isMobile: isMobile, onNavigate: onNavigate,),
+          Footer(),
         ],
       ),
     );
@@ -23,8 +32,10 @@ class ServicesPage extends StatelessWidget {
 
 class _HeaderSection extends StatelessWidget {
   final bool isMobile;
+  final Function(String) onNavigate;
 
-  const _HeaderSection({required this.isMobile});
+
+  const _HeaderSection({required this.isMobile, required this.onNavigate});
 
   @override
   Widget build(BuildContext context) {
@@ -37,29 +48,39 @@ class _HeaderSection extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(
-              'Our ',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
-                fontSize: isMobile ? 36 : 48,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Services',
-                    style: GoogleFonts.inter(
-                      fontSize: isMobile ? 36 : 48,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.orange,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Text(
+            //   'Our ',
+            //   textAlign: TextAlign.center,
+            //   style: GoogleFonts.inter(
+            //     fontSize: isMobile ? 36 : 48,
+            //     fontWeight: FontWeight.bold,
+            //     color: AppColors.textPrimary,
+            //   ),
+            // ),
+          RichText(
+  textAlign: TextAlign.center,
+  text: TextSpan(
+    children: [
+      TextSpan(
+        text: 'Our ',
+        style: GoogleFonts.inter(
+          fontSize: isMobile ? 36 : 48,
+          fontWeight: FontWeight.bold,
+          color: AppColors.textPrimary,
+        ),
+      ),
+      TextSpan(
+        text: 'Services',
+        style: GoogleFonts.inter(
+          fontSize: isMobile ? 36 : 48,
+          fontWeight: FontWeight.bold,
+          color: AppColors.orange,
+        ),
+      ),
+    ],
+  ),
+),
+
             const SizedBox(height: 24),
             SizedBox(
               width: isMobile ? double.infinity : 700,
@@ -89,7 +110,7 @@ class _ServicesGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final services = [
       {
-        'icon': OtherIcons.code,
+        'icon': Bootstrap.code,
         'title': 'Custom Development',
         'description':
             'Tailored software solutions built to meet your unique business requirements with cutting-edge technologies.',
@@ -101,7 +122,7 @@ class _ServicesGrid extends StatelessWidget {
         ],
       },
       {
-        'icon': OtherIcons.cloud,
+        'icon': Bootstrap.cloud,
         'title': 'Cloud Solutions',
         'description':
             'Scalable cloud infrastructure and migration services to power your business growth.',
@@ -113,7 +134,7 @@ class _ServicesGrid extends StatelessWidget {
         ],
       },
       {
-        'icon': OtherIcons.database,
+        'icon': Bootstrap.database,
         'title': 'Data Management',
         'description':
             'Comprehensive data solutions for storage, processing, and analytics at any scale.',
@@ -125,7 +146,7 @@ class _ServicesGrid extends StatelessWidget {
         ],
       },
       {
-        'icon': OtherIcons.lock,
+        'icon': Bootstrap.lock,
         'title': 'Security Services',
         'description':
             'Enterprise-grade security solutions to protect your business and customer data.',
@@ -137,7 +158,7 @@ class _ServicesGrid extends StatelessWidget {
         ],
       },
       {
-        'icon': OtherIcons.smartphone,
+        'icon': CupertinoIcons.phone,
         'title': 'Mobile Development',
         'description':
             'Native and cross-platform mobile applications that engage and delight users.',
@@ -149,7 +170,7 @@ class _ServicesGrid extends StatelessWidget {
         ],
       },
       {
-        'icon': OtherIcons.trendingUp,
+        'icon': CupertinoIcons.graph_square_fill,
         'title': 'Business Intelligence',
         'description':
             'Transform your data into actionable insights with powerful analytics and reporting.',
@@ -167,6 +188,8 @@ class _ServicesGrid extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(isMobile ? 16 : 48),
         child: GridView.count(
+            physics: const NeverScrollableScrollPhysics(),
+
           crossAxisCount: isMobile ? 1 : 3,
           shrinkWrap: true,
           crossAxisSpacing: 24,
@@ -212,15 +235,15 @@ class _ServiceCardState extends State<_ServiceCard> {
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        transform: _isHovered
-            ? (Matrix4.identity()..scaleByDouble(1.02, 1.02, 1.02, 1.0))
-            : Matrix4.identity(),
+  duration: const Duration(milliseconds: 200),
+  transform: _isHovered
+      ? (Matrix4.identity()..scale(1.02))
+      : Matrix4.identity(),
         decoration: BoxDecoration(
           color: AppColors.darkBgSecondary,
           border: Border.all(
             color: _isHovered
-                ? AppColors.orange.withValues(alpha: 0.4)
+                ? AppColors.orange.withValues( alpha: 0.4)
                 : AppColors.orange.withValues(alpha: 0.2),
           ),
           borderRadius: BorderRadius.circular(12),
@@ -233,7 +256,7 @@ class _ServiceCardState extends State<_ServiceCard> {
               width: 56,
               height: 56,
               decoration: BoxDecoration(
-                color: AppColors.orange.withValues(alpha: 0.1),
+                color: AppColors.orange.withValues( alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
@@ -287,7 +310,7 @@ class _ServiceCardState extends State<_ServiceCard> {
                         ],
                       ),
                     ))
-                .toList(),
+                ,
           ],
         ),
       ),
@@ -297,8 +320,11 @@ class _ServiceCardState extends State<_ServiceCard> {
 
 class _CustomSolutionSection extends StatelessWidget {
   final bool isMobile;
+  final Function(String) onNavigate;
 
-  const _CustomSolutionSection({required this.isMobile});
+  // const _HeroSection({required this.onNavigate});
+
+  const _CustomSolutionSection({required this.isMobile, required this.onNavigate});
 
   @override
   Widget build(BuildContext context) {
@@ -312,10 +338,10 @@ class _CustomSolutionSection extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: AppColors.orange.withValues(alpha: 0.3),
+              color: AppColors.orange.withValues( alpha: 0.3),
             ),
             borderRadius: BorderRadius.circular(12),
-            color: AppColors.orange.withValues(alpha: 0.05),
+            color: AppColors.orange.withValues( alpha: 0.05),
           ),
           padding: EdgeInsets.all(isMobile ? 24 : 48),
           child: Column(
@@ -340,7 +366,7 @@ class _CustomSolutionSection extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () => onNavigate('contact'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.orange,
                 ),
@@ -351,7 +377,9 @@ class _CustomSolutionSection extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                   ),
+                  
                 ),
+                
               ),
             ],
           ),

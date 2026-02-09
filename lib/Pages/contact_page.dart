@@ -1,4 +1,5 @@
 import 'package:aiservicewebsite/services/supabase_service.dart';
+import 'package:aiservicewebsite/widgets/footer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,7 +8,9 @@ import '../theme.dart';
 // import '..sevices/supabase_services.dart';
 
 class ContactPage extends StatefulWidget {
-  const ContactPage({super.key});
+  final Function(String)? onNavigate;
+
+  const ContactPage({Key? key, this.onNavigate}) : super(key: key);
 
   @override
   State<ContactPage> createState() => _ContactPageState();
@@ -105,6 +108,16 @@ class _ContactPageState extends State<ContactPage> {
             onSubmit: _submitForm,
             formKey: _formKey,
           ),
+          Footer(),
+
+
+          // your page content
+          Text("Contact Page"),
+ElevatedButton(
+  onPressed: () {
+    if (widget.onNavigate != null) widget.onNavigate!("home");
+  },
+  child: Text("Go Home"),),
         ],
       ),
     );
@@ -127,28 +140,33 @@ class _HeaderSection extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(
-              'Contact ',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
-                fontSize: isMobile ? 36 : 48,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Us',
-                    style: GoogleFonts.inter(
-                      fontSize: isMobile ? 36 : 48,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.orange,
-                    ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Contact ',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.inter(
+                    fontSize: isMobile ? 36 : 48,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
                   ),
-                ],
-              ),
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Us',
+                        style: GoogleFonts.inter(
+                          fontSize: isMobile ? 36 : 48,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.orange,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 24),
             SizedBox(
@@ -321,7 +339,7 @@ class _ContactInfoCards extends StatelessWidget {
           ),
         ),
         _InfoCard(
-          icon: OtherIcons.mapPin,
+          icon: CupertinoIcons.map_pin,
           title: 'Visit Us',
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

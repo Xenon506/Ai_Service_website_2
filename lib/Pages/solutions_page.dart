@@ -1,3 +1,4 @@
+import 'package:aiservicewebsite/widgets/footer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,7 +6,9 @@ import 'package:icons_plus/icons_plus.dart';
 import '../theme.dart';
 
 class SolutionsPage extends StatelessWidget {
-  const SolutionsPage({super.key});
+  final void Function(String page) onNavigate;
+  
+  const SolutionsPage({Key? key, required this.onNavigate}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,8 @@ class SolutionsPage extends StatelessWidget {
           _HeaderSection(isMobile: isMobile),
           _AISolutionsGrid(isMobile: isMobile),
           _ProcessSection(isMobile: isMobile),
-          _CTASection(isMobile: isMobile),
+          _CTASection(isMobile: isMobile, onNavigate: onNavigate),
+          Footer(),
         ],
       ),
     );
@@ -137,7 +141,7 @@ class _AISolutionsGrid extends StatelessWidget {
           'Predictive analytics',
           'Pattern recognition',
           'Anomaly detection',
-          'Recommendation systems',
+          'Recommendation systems'
         ],
         'category': 'Core AI',
       },
@@ -150,7 +154,7 @@ class _AISolutionsGrid extends StatelessWidget {
           'Sentiment analysis',
           'Text classification',
           'Entity extraction',
-          'Language translation',
+          'Language translation'
         ],
         'category': 'Language AI',
       },
@@ -163,7 +167,7 @@ class _AISolutionsGrid extends StatelessWidget {
           'Object detection',
           'Image classification',
           'Facial recognition',
-          'Quality inspection',
+          'Quality inspection'
         ],
         'category': 'Vision AI',
       },
@@ -176,7 +180,7 @@ class _AISolutionsGrid extends StatelessWidget {
           'Demand forecasting',
           'Risk assessment',
           'Customer churn prediction',
-          'Price optimization',
+          'Price optimization'
         ],
         'category': 'Analytics',
       },
@@ -189,12 +193,12 @@ class _AISolutionsGrid extends StatelessWidget {
           'Document classification',
           'Data extraction',
           'Form processing',
-          'Invoice automation',
+          'Invoice automation'
         ],
         'category': 'Automation',
       },
       {
-        'icon': CupertinoIcons.headphones,
+        'icon': Bootstrap.headphones,
         'title': 'Voice AI Solutions',
         'description':
             'Speech recognition and synthesis for voice assistants, transcription, and audio analysis.',
@@ -202,12 +206,12 @@ class _AISolutionsGrid extends StatelessWidget {
           'Speech-to-text',
           'Text-to-speech',
           'Voice recognition',
-          'Audio analysis',
+          'Audio analysis'
         ],
         'category': 'Voice AI',
       },
       {
-        'icon': CupertinoIcons.map,
+        'icon': CupertinoIcons.settings,
         'title': 'AI Process Automation',
         'description':
             'Intelligent automation that learns and adapts to streamline your business processes.',
@@ -215,12 +219,12 @@ class _AISolutionsGrid extends StatelessWidget {
           'Workflow automation',
           'Smart routing',
           'Process optimization',
-          'Task automation',
+          'Task automation'
         ],
         'category': 'Automation',
       },
       {
-        'icon': Bootstrap.telephone_forward_fill,
+        'icon': Bootstrap.hdd_network,
         'title': 'AI Integration Services',
         'description':
             'Seamlessly integrate AI capabilities into your existing systems and workflows.',
@@ -228,7 +232,7 @@ class _AISolutionsGrid extends StatelessWidget {
           'API development',
           'System integration',
           'Model deployment',
-          'Performance monitoring',
+          'Performance monitoring'
         ],
         'category': 'Integration',
       },
@@ -238,25 +242,27 @@ class _AISolutionsGrid extends StatelessWidget {
       color: AppColors.darkBg,
       child: Padding(
         padding: EdgeInsets.all(isMobile ? 16 : 48),
-        child: GridView.count(
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: isMobile ? 1 : 2,
-          shrinkWrap: true,
-          crossAxisSpacing: 24,
-          mainAxisSpacing: 24,
-          childAspectRatio: isMobile ? 0.95 : 1,
-          children: solutions
-              .map(
-                (solution) => _AISolutionCard(
-                  icon: solution['icon'] as IconData,
-                  title: solution['title'] as String,
-                  description: solution['description'] as String,
-                  capabilities: solution['capabilities'] as List<String>,
-                  category: solution['category'] as String,
-                ),
-              )
-              .toList(),
-        ),
+        child: GridView.builder(
+  shrinkWrap: true,
+  physics: const NeverScrollableScrollPhysics(),
+  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+    maxCrossAxisExtent: isMobile ? 600 : 520,
+    mainAxisSpacing: 24,
+    crossAxisSpacing: 24,
+    mainAxisExtent: isMobile ? null : 420, // 🔑 controls height
+  ),
+  itemCount: solutions.length,
+  itemBuilder: (context, index) {
+    final solution = solutions[index];
+    return _AISolutionCard(
+      icon: solution['icon'] as IconData,
+      title: solution['title'] as String,
+      description: solution['description'] as String,
+      capabilities: solution['capabilities'] as List<String>,
+      category: solution['category'] as String,
+    );
+  },
+),
       ),
     );
   }
@@ -310,6 +316,7 @@ class _AISolutionCardState extends State<_AISolutionCard> {
         ),
         padding: const EdgeInsets.all(32),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
@@ -322,7 +329,11 @@ class _AISolutionCardState extends State<_AISolutionCard> {
                     color: AppColors.orange.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Icon(widget.icon, color: AppColors.orange, size: 28),
+                  child: Icon(
+                    widget.icon,
+                    color: AppColors.orange,
+                    size: 28,
+                  ),
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -332,10 +343,8 @@ class _AISolutionCardState extends State<_AISolutionCard> {
                     ),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 4,
-                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   child: Text(
                     widget.category,
                     style: GoogleFonts.inter(
@@ -379,29 +388,27 @@ class _AISolutionCardState extends State<_AISolutionCard> {
               spacing: 8,
               runSpacing: 8,
               children: widget.capabilities
-                  .map(
-                    (capability) => Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 4,
-                          height: 4,
-                          decoration: BoxDecoration(
-                            color: AppColors.orange,
-                            borderRadius: BorderRadius.circular(2),
+                  .map((capability) => Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 4,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: AppColors.orange,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          capability,
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: AppColors.textSecondary,
+                          const SizedBox(width: 6),
+                          Text(
+                            capability,
+                            style: GoogleFonts.inter(
+                              fontSize: 12,
+                              color: AppColors.textSecondary,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  )
+                        ],
+                      ))
                   .toList(),
             ),
           ],
@@ -419,27 +426,10 @@ class _ProcessSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final steps = [
-      {
-        'number': '1',
-        'title': 'Discovery',
-        'description': 'Understanding your business needs and AI opportunities',
-      },
-      {
-        'number': '2',
-        'title': 'Design',
-        'description':
-            'Architecting the optimal AI solution for your requirements',
-      },
-      {
-        'number': '3',
-        'title': 'Development',
-        'description': 'Building and training AI models with your data',
-      },
-      {
-        'number': '4',
-        'title': 'Deployment',
-        'description': 'Seamless integration and ongoing optimization',
-      },
+      {'number': '1', 'title': 'Discovery', 'description': 'Understanding your business needs and AI opportunities'},
+      {'number': '2', 'title': 'Design', 'description': 'Architecting the optimal AI solution for your requirements'},
+      {'number': '3', 'title': 'Development', 'description': 'Building and training AI models with your data'},
+      {'number': '4', 'title': 'Deployment', 'description': 'Seamless integration and ongoing optimization'},
     ];
 
     return Container(
@@ -471,20 +461,17 @@ class _ProcessSection extends StatelessWidget {
             ),
             const SizedBox(height: 48),
             GridView.count(
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: isMobile ? 1 : 2,
+              crossAxisCount: isMobile ? 1 : 4,
               shrinkWrap: true,
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
               childAspectRatio: 1,
               children: steps
-                  .map(
-                    (step) => _ProcessStep(
-                      number: step['number']!,
-                      title: step['title']!,
-                      description: step['description']!,
-                    ),
-                  )
+                  .map((step) => _ProcessStep(
+                        number: step['number']!,
+                        title: step['title']!,
+                        description: step['description']!,
+                      ))
                   .toList(),
             ),
           ],
@@ -555,8 +542,9 @@ class _ProcessStep extends StatelessWidget {
 
 class _CTASection extends StatelessWidget {
   final bool isMobile;
+  final void Function(String page) onNavigate;
 
-  const _CTASection({required this.isMobile});
+  const _CTASection({required this.isMobile, required this.onNavigate});
 
   @override
   Widget build(BuildContext context) {
@@ -589,8 +577,10 @@ class _CTASection extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
+              onPressed: () {
+                onNavigate('contact');
+              },
+              style: ElevatedButton.styleFrom(    
                 backgroundColor: AppColors.orange,
               ),
               child: Text(

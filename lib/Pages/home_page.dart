@@ -1,3 +1,4 @@
+import 'package:aiservicewebsite/widgets/footer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme.dart';
@@ -17,6 +18,7 @@ class HomePage extends StatelessWidget {
           _HeroSection(onNavigate: onNavigate),
           _FeatureSection(isMobile: isMobile),
           _CTASection(onNavigate: onNavigate),
+          Footer(),
         ],
       ),
     );
@@ -54,7 +56,7 @@ class _HeroSection extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: 'Dart Language',
+                    text: 'Dynamic Dazzel',
                     style: GoogleFonts.inter(
                       fontSize: isMobile ? 32 : 56,
                       fontWeight: FontWeight.bold,
@@ -151,7 +153,8 @@ class _FeatureSection extends StatelessWidget {
         // FIX: Use Material Icons equivalents since OtherIcons.bolt, ... are not defined in theme.dart
         'icon': Icons.bolt, // Lightning fast
         'title': 'Fast & Efficient',
-        'description': 'Lightning-fast solutions that deliver results in record time',
+        'description':
+            'Lightning-fast solutions that deliver results in record time',
       },
       {
         'icon': Icons.center_focus_strong, // Targeting / Precision
@@ -179,43 +182,54 @@ class _FeatureSection extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(
-              'Why Choose ',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
-                fontSize: isMobile ? 28 : 36,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Dart Language',
-                    style: GoogleFonts.inter(
-                      fontSize: isMobile ? 28 : 36,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.orange,
-                    ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+                Text(
+                  'Why Choose ',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.inter(
+                    fontSize: isMobile ? 28 : 36,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
                   ),
-                ],
-              ),
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Us',
+                        style: GoogleFonts.inter(
+                          fontSize: isMobile ? 28 : 36,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.orange,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
+            
             const SizedBox(height: 48),
+            
             GridView.count(
               crossAxisCount: isMobile ? 1 : 2,
               shrinkWrap: true,
               crossAxisSpacing: 24,
               mainAxisSpacing: 24,
-              childAspectRatio: 1.1,
-              physics: const NeverScrollableScrollPhysics(), // Prevent GridView from scrolling inside SingleChildScrollView
+              childAspectRatio: isMobile ? 2.5 : 3.5,
+              physics:
+                  const NeverScrollableScrollPhysics(), // Prevent GridView from scrolling inside SingleChildScrollView
               children: features
-                  .map((feature) => _FeatureCard(
-                        icon: feature['icon'] as IconData,
-                        title: feature['title'] as String,
-                        description: feature['description'] as String,
-                      ))
+                  .map(
+                    (feature) => _FeatureCard(
+                      icon: feature['icon'] as IconData,
+                      title: feature['title'] as String,
+                      description: feature['description'] as String,
+                    ),
+                  )
                   .toList(),
             ),
           ],
@@ -253,27 +267,24 @@ class _FeatureCardState extends State<_FeatureCard> {
           color: AppColors.darkBgSecondary,
           border: Border.all(
             color: _isHovered
-                ? AppColors.orange.withOpacity(0.4)
-                : AppColors.orange.withOpacity(0.2),
+                ? AppColors.orange.withValues(alpha: 0.4)
+                : AppColors.orange.withValues(alpha: 0.2),
           ),
           borderRadius: BorderRadius.circular(12),
         ),
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(20),
         child: Column(
+          mainAxisSize: MainAxisSize.min, // 🔥 key line
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: AppColors.orange.withOpacity(0.1),
+                color: AppColors.orange.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(
-                widget.icon,
-                color: AppColors.orange,
-                size: 24,
-              ),
+              child: Icon(widget.icon, color: AppColors.orange, size: 24),
             ),
             const SizedBox(height: 16),
             Text(
@@ -290,7 +301,7 @@ class _FeatureCardState extends State<_FeatureCard> {
               style: GoogleFonts.inter(
                 fontSize: 14,
                 color: AppColors.textTertiary,
-                height: 1.5,
+                height: 1.4,
               ),
             ),
           ],
