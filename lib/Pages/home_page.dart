@@ -16,6 +16,10 @@ class HomePage extends StatelessWidget {
       child: Column(
         children: [
           _HeroSection(onNavigate: onNavigate),
+
+          // 🔥 ABOUT PREVIEW SECTION
+          _HomeAboutSection(isMobile: isMobile, onNavigate: onNavigate),
+
           _FeatureSection(isMobile: isMobile),
           _CTASection(onNavigate: onNavigate),
           Footer(),
@@ -35,7 +39,16 @@ class _HeroSection extends StatelessWidget {
     final isMobile = MediaQuery.of(context).size.width < 768;
 
     return Container(
-      color: AppColors.darkBgSecondary,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color.fromARGB(255, 24, 24, 24),
+            Color.fromARGB(255, 4, 3, 2),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: isMobile ? 16 : 48,
@@ -66,7 +79,7 @@ class _HeroSection extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 29),
             SizedBox(
               width: isMobile ? double.infinity : 600,
               child: Text(
@@ -141,6 +154,154 @@ class _HeroSection extends StatelessWidget {
   }
 }
 
+class _HomeAboutSection extends StatelessWidget {
+  final bool isMobile;
+  final Function(String) onNavigate;
+
+  const _HomeAboutSection({required this.isMobile, required this.onNavigate});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: AppColors.darkBg,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 16 : 48,
+          vertical: isMobile ? 40 : 80,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // LEFT CONTENT
+            Expanded(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'About ',
+                    style: GoogleFonts.inter(
+                      fontSize: isMobile ? 28 : 36,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'DDE',
+                          style: GoogleFonts.inter(
+                            fontSize: isMobile ? 28 : 36,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.orange,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    'We are a technology-driven company focused on delivering intelligent AI solutions that help businesses scale, innovate, and stay competitive in a fast-changing digital world.',
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      color: AppColors.textTertiary,
+                      height: 1.6,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'From strategy to execution, our team blends deep technical expertise with real business understanding.',
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      color: AppColors.textTertiary,
+                      height: 1.6,
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  OutlinedButton(
+                    onPressed: () => onNavigate('about'),
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(
+                        color: AppColors.orange.withValues(alpha: 0.8),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                    ),
+                    child: Text(
+                      'Learn More About Us',
+                      style: GoogleFonts.inter(
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // RIGHT STATS (desktop only)
+            if (!isMobile) const SizedBox(width: 48),
+            if (!isMobile)
+              Expanded(
+                flex: 2,
+                child: Container(
+                  padding: const EdgeInsets.all(32),
+                  decoration: BoxDecoration(
+                    color: AppColors.darkBgSecondary,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: AppColors.orange.withValues(alpha: 0.2),
+                    ),
+                  ),
+                  child: Column(
+                    children: const [
+                      _MiniStat(number: '500+', label: 'Projects'),
+                      SizedBox(height: 24),
+                      _MiniStat(number: '200+', label: 'Clients'),
+                      SizedBox(height: 24),
+                      _MiniStat(number: '15+', label: 'Countries'),
+                    ],
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MiniStat extends StatelessWidget {
+  final String number;
+  final String label;
+
+  const _MiniStat({required this.number, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          number,
+          style: GoogleFonts.inter(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: AppColors.orange,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          label,
+          style: GoogleFonts.inter(fontSize: 13, color: AppColors.textTertiary),
+        ),
+      ],
+    );
+  }
+}
+
 class _FeatureSection extends StatelessWidget {
   final bool isMobile;
 
@@ -185,7 +346,6 @@ class _FeatureSection extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 Text(
                   'Why Choose ',
                   textAlign: TextAlign.center,
@@ -211,26 +371,42 @@ class _FeatureSection extends StatelessWidget {
                 ),
               ],
             ),
-            
+
             const SizedBox(height: 48),
-            
-            GridView.count(
-              crossAxisCount: isMobile ? 1 : 2,
-              shrinkWrap: true,
-              crossAxisSpacing: 24,
-              mainAxisSpacing: 24,
-              childAspectRatio: isMobile ? 2.5 : 3.5,
-              physics:
-                  const NeverScrollableScrollPhysics(), // Prevent GridView from scrolling inside SingleChildScrollView
-              children: features
-                  .map(
-                    (feature) => _FeatureCard(
+
+            LayoutBuilder(
+              builder: (context, constraints) {
+                int crossAxisCount = 4;
+
+                if (constraints.maxWidth < 1100) {
+                  crossAxisCount = 2;
+                }
+                if (constraints.maxWidth < 650) {
+                  crossAxisCount = 1;
+                }
+
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: features.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    crossAxisSpacing: 22,
+                    mainAxisSpacing: 22,
+                    childAspectRatio:
+                        1.15, // 🔥 THIS makes cards small + premium
+                  ),
+                  itemBuilder: (context, index) {
+                    final feature = features[index];
+
+                    return _FeatureCard(
                       icon: feature['icon'] as IconData,
                       title: feature['title'] as String,
                       description: feature['description'] as String,
-                    ),
-                  )
-                  .toList(),
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
@@ -262,46 +438,53 @@ class _FeatureCardState extends State<_FeatureCard> {
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding: const EdgeInsets.all(22), // 🔥 more internal space
         decoration: BoxDecoration(
-          color: AppColors.darkBgSecondary,
+          color: const Color(0xff1a2433), // 🔥 lighter card bg like screenshot
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: _isHovered
-                ? AppColors.orange.withValues(alpha: 0.4)
-                : AppColors.orange.withValues(alpha: 0.2),
+            width: 1.2, // 🔥 slightly thicker border
+            color: AppColors.orange.withValues(alpha: 0.35),
           ),
-          borderRadius: BorderRadius.circular(12),
         ),
-        padding: const EdgeInsets.all(20),
         child: Column(
-          mainAxisSize: MainAxisSize.min, // 🔥 key line
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
+            /// ICON BOX (bigger like design)
             Container(
-              width: 48,
-              height: 48,
+              width: 52,
+              height: 52,
               decoration: BoxDecoration(
-                color: AppColors.orange.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
+                color: AppColors.orange.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(widget.icon, color: AppColors.orange, size: 24),
+              child: Icon(widget.icon, size: 24, color: AppColors.orange),
             ),
-            const SizedBox(height: 16),
+
+            const SizedBox(height: 22),
+
+            /// TITLE (bigger)
             Text(
               widget.title,
               style: GoogleFonts.inter(
                 fontSize: 20,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
                 color: AppColors.textPrimary,
               ),
             ),
-            const SizedBox(height: 8),
+
+            const SizedBox(height: 12),
+
+            /// DESCRIPTION
             Text(
               widget.description,
               style: GoogleFonts.inter(
-                fontSize: 14,
-                color: AppColors.textTertiary,
-                height: 1.4,
+                fontSize: 15,
+                height: 1.5,
+                color: AppColors.textSecondary,
               ),
             ),
           ],
