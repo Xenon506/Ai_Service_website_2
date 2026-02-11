@@ -51,9 +51,9 @@ class Navigation extends StatelessWidget {
                     onTap: () => onNavigate('home'),
                   ),
                   _NavLink(
-                    label: 'Services',
-                    isActive: currentPage == 'services',
-                    onTap: () => onNavigate('services'),
+                    label: 'Blogs',
+                    isActive: currentPage == 'blogs',
+                    onTap: () => onNavigate('blogs'),
                   ),
                   _NavLink(
                     label: 'Solutions',
@@ -165,8 +165,8 @@ class _MobileMenuState extends State<_MobileMenu> {
           child: Text('Home', style: GoogleFonts.inter()),
         ),
         PopupMenuItem(
-          value: 'services',
-          child: Text('Services', style: GoogleFonts.inter()),
+          value: 'blogs',
+          child: Text('Blogs', style: GoogleFonts.inter()),
         ),
         PopupMenuItem(
           value: 'solutions',

@@ -21,6 +21,12 @@ class HomePage extends StatelessWidget {
           _HomeAboutSection(isMobile: isMobile, onNavigate: onNavigate),
 
           _FeatureSection(isMobile: isMobile),
+
+          _HomeBlogSection(
+            isMobile: isMobile,
+            onNavigate: onNavigate,
+          ), // ✅ ADD THIS
+
           _CTASection(onNavigate: onNavigate),
           Footer(),
         ],
@@ -181,7 +187,7 @@ class _HomeAboutSection extends StatelessWidget {
                   Text(
                     'About ',
                     style: GoogleFonts.inter(
-                      fontSize: isMobile ? 28 : 36,
+                      fontSize: isMobile ? 28 : 46,
                       fontWeight: FontWeight.bold,
                       color: AppColors.textPrimary,
                     ),
@@ -192,7 +198,7 @@ class _HomeAboutSection extends StatelessWidget {
                         TextSpan(
                           text: 'DDE',
                           style: GoogleFonts.inter(
-                            fontSize: isMobile ? 28 : 36,
+                            fontSize: isMobile ? 28 : 42,
                             fontWeight: FontWeight.bold,
                             color: AppColors.orange,
                           ),
@@ -204,16 +210,16 @@ class _HomeAboutSection extends StatelessWidget {
                   Text(
                     'We are a technology-driven company focused on delivering intelligent AI solutions that help businesses scale, innovate, and stay competitive in a fast-changing digital world.',
                     style: GoogleFonts.inter(
-                      fontSize: 14,
+                      fontSize: 20,
                       color: AppColors.textTertiary,
                       height: 1.6,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 14),
                   Text(
                     'From strategy to execution, our team blends deep technical expertise with real business understanding.',
                     style: GoogleFonts.inter(
-                      fontSize: 14,
+                      fontSize: 20,
                       color: AppColors.textTertiary,
                       height: 1.6,
                     ),
@@ -335,7 +341,16 @@ class _FeatureSection extends StatelessWidget {
     ];
 
     return Container(
-      color: AppColors.darkBg,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color.fromARGB(255, 31, 31, 32),
+            Color.fromARGB(255, 10, 10, 10),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: isMobile ? 16 : 48,
@@ -391,10 +406,9 @@ class _FeatureSection extends StatelessWidget {
                   itemCount: features.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: crossAxisCount,
-                    crossAxisSpacing: 22,
-                    mainAxisSpacing: 22,
-                    childAspectRatio:
-                        1.15, // 🔥 THIS makes cards small + premium
+                    crossAxisSpacing: 14,
+                    mainAxisSpacing: 14,
+                     childAspectRatio: isMobile ? 2.2 : 1.6, /// 🔥 THIS makes cards small + premium
                   ),
                   itemBuilder: (context, index) {
                     final feature = features[index];
@@ -494,6 +508,196 @@ class _FeatureCardState extends State<_FeatureCard> {
   }
 }
 
+class _HomeBlogSection extends StatelessWidget {
+  final bool isMobile;
+  final Function(String) onNavigate;
+
+  const _HomeBlogSection({required this.isMobile, required this.onNavigate});
+
+  @override
+  Widget build(BuildContext context) {
+    final blogs = [
+      {
+        "icon": Icons.auto_awesome,
+        "title": "AI in Modern SaaS",
+        "description":
+            "How AI is transforming modern SaaS platforms with automation and intelligence.",
+      },
+      {
+        "icon": Icons.public,
+        "title": "Scaling Flutter Web",
+        "description":
+            "Best practices to deploy scalable enterprise SaaS using Flutter Web.",
+      },
+      {
+        "icon": Icons.memory,
+        "title": "AI Architecture",
+        "description":
+            "Modern backend & AI architecture used by real world startups.",
+      },
+      {
+        "icon": Icons.analytics,
+        "title": "Startup Growth Metrics",
+        "description":
+            "Key analytics & growth metrics every SaaS founder must track.",
+      },
+    ];
+
+    return Container(
+      color: AppColors.darkBgSecondary,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 16 : 48,
+          vertical: isMobile ? 40 : 80,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            /// HEADER
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Latest Blogs ",
+                  style: GoogleFonts.inter(
+                    fontSize: isMobile ? 28 : 36,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+              ],
+            ),
+            
+
+            SizedBox(height: 10),
+            TextButton(
+              onPressed: () => onNavigate('blog'),
+              child: Text(
+                "View All",
+                style: GoogleFonts.inter(
+                  color: AppColors.orange,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 36),
+
+            LayoutBuilder(
+              builder: (context, constraints) {
+                int crossAxisCount = 3;
+
+                if (constraints.maxWidth < 1100) crossAxisCount = 2;
+                if (constraints.maxWidth < 700) crossAxisCount = 1;
+
+                return GridView.count(
+                  crossAxisCount: isMobile ? 1 : 4,
+                  shrinkWrap: true,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: isMobile ? 2.2 : 1.6, // ⭐ MAIN FIX
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: blogs
+                      .map(
+                        (blog) => _BlogCard(
+                          icon: blog['icon'] as IconData,
+                          title: blog['title'] as String,
+                          description: blog['description'] as String,
+                        ),
+                      )
+                      .toList(),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BlogCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String description;
+
+  const _BlogCard({
+    required this.icon,
+    required this.title,
+    required this.description,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return _FeatureCard(icon: icon, title: title, description: description);
+  }
+}
+
+class _HomeBlogCard extends StatelessWidget {
+  final String title;
+  final String description;
+  final String tag;
+  final String readTime;
+
+  const _HomeBlogCard({
+    required this.title,
+    required this.description,
+    required this.tag,
+    required this.readTime,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.darkBgTertiary,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.borderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            tag,
+            style: GoogleFonts.inter(
+              color: AppColors.orange,
+              fontWeight: FontWeight.w600,
+              fontSize: 13,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            title,
+            style: GoogleFonts.inter(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            description,
+            style: GoogleFonts.inter(
+              color: AppColors.textSecondary,
+              height: 1.5,
+            ),
+          ),
+          const Spacer(),
+          Text(
+            readTime,
+            style: GoogleFonts.inter(
+              fontSize: 13,
+              color: AppColors.textTertiary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _CTASection extends StatelessWidget {
   final Function(String) onNavigate;
 
@@ -504,7 +708,8 @@ class _CTASection extends StatelessWidget {
     final isMobile = MediaQuery.of(context).size.width < 768;
 
     return Container(
-      color: AppColors.darkBgSecondary,
+      color: const Color.fromARGB(255, 8, 8, 8),
+      width: double.infinity,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: isMobile ? 16 : 48,

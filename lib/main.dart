@@ -1,3 +1,4 @@
+import 'package:aiservicewebsite/Pages/blogs_page.dart';
 import 'package:flutter/material.dart';
 import 'theme.dart';
 import 'widgets/navigation.dart';
@@ -52,8 +53,8 @@ class _MainPageState extends State<MainPage> {
     switch (_currentPage) {
       case 'home':
         return HomePage(onNavigate: _navigateTo);
-      case 'services':
-        return ServicesPage(onNavigate: _navigateTo);
+      case 'blogs':
+        return BlogPage(onNavigate: _navigateTo);
       case 'solutions':
         return SolutionsPage(onNavigate: _navigateTo);
       case 'contact':
