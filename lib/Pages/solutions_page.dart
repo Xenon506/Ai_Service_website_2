@@ -6,9 +6,11 @@ import 'package:icons_plus/icons_plus.dart';
 import '../theme.dart';
 
 class SolutionsPage extends StatelessWidget {
-  final void Function(String page) onNavigate;
   
-  const SolutionsPage({Key? key, required this.onNavigate}) : super(key: key);
+  // required void Function(String page) onNavigate
+  final Function(String) onNavigate;
+  
+  const SolutionsPage({ required this.onNavigate});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class SolutionsPage extends StatelessWidget {
           _HeaderSection(isMobile: isMobile),
           _AISolutionsGrid(isMobile: isMobile),
           _ProcessSection(isMobile: isMobile),
-          _CTASection(isMobile: isMobile, onNavigate: onNavigate),
+          _CTASection(isMobile: isMobile),
           Footer(),
         ],
       ),
@@ -542,9 +544,8 @@ class _ProcessStep extends StatelessWidget {
 
 class _CTASection extends StatelessWidget {
   final bool isMobile;
-  final void Function(String page) onNavigate;
 
-  const _CTASection({required this.isMobile, required this.onNavigate});
+  const _CTASection({required this.isMobile});
 
   @override
   Widget build(BuildContext context) {
@@ -577,10 +578,8 @@ class _CTASection extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () {
-                onNavigate('contact');
-              },
-              style: ElevatedButton.styleFrom(    
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.orange,
               ),
               child: Text(
