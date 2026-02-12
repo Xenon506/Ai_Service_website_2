@@ -56,7 +56,7 @@ class Footer extends StatelessWidget {
           ),
 
           const SizedBox(height: 40),
-          Divider(color: AppColors.borderColor.withOpacity(0.4)),
+          Divider(color: AppColors.borderColor.withValues(alpha: 0.4)),
           const SizedBox(height: 20),
 
           Row(
