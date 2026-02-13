@@ -1,4 +1,5 @@
 import 'package:aiservicewebsite/Pages/blogs_page.dart';
+import 'package:aiservicewebsite/Pages/admin_page.dart';
 import 'package:flutter/material.dart';
 import 'theme.dart';
 import 'widgets/navigation.dart';
@@ -60,6 +61,8 @@ class _MainPageState extends State<MainPage> {
         return ContactPage(onNavigate: _navigateTo);
       case 'about':
         return const AboutPage();
+      case 'admin':
+        return const AdminPage();
       default:
         return HomePage(onNavigate: _navigateTo);
     }
@@ -73,7 +76,6 @@ class _MainPageState extends State<MainPage> {
         children: [
           Navigation(currentPage: _currentPage, onNavigate: _navigateTo),
           Expanded(child: _buildPage()),
-          // const Footer(),
         ],
       ),
     );

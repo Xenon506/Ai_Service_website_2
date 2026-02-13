@@ -1,4 +1,5 @@
 import 'package:aiservicewebsite/widgets/footer.dart';
+import 'package:aiservicewebsite/services/supabase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme.dart';
@@ -63,40 +64,61 @@ class _HeroSection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              'Welcome to ',
-              style: GoogleFonts.inter(
-                fontSize: isMobile ? 32 : 56,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Dynamic Dazzel',
-                    style: GoogleFonts.inter(
-                      fontSize: isMobile ? 32 : 56,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.orange,
+            FutureBuilder<Map<String, dynamic>?>(
+              future: SupabaseService().getWebsiteSettings(),
+              builder: (context, snapshot) {
+                final hasCustom = snapshot.hasData && snapshot.data != null;
+                final heroTitle =
+                    hasCustom && (snapshot.data!['hero_title'] ?? '').isNotEmpty
+                        ? snapshot.data!['hero_title'] as String
+                        : 'Welcome to Dynamic Dazzel';
+                final heroSubtitle = hasCustom &&
+                        (snapshot.data!['hero_subtitle'] ?? '').isNotEmpty
+                    ? snapshot.data!['hero_subtitle'] as String
+                    : 'Empowering businesses with cutting-edge AI solutions and innovative services';
+                final heroImageUrl =
+                    (snapshot.data?['hero_image_url'] ?? '') as String;
+
+                return Column(
+                  children: [
+                    Text(
+                      heroTitle,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.inter(
+                        fontSize: isMobile ? 32 : 56,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 29),
-            SizedBox(
-              width: isMobile ? double.infinity : 600,
-              child: Text(
-                'Empowering businesses with cutting-edge AI solutions and innovative services',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.inter(
-                  fontSize: isMobile ? 16 : 20,
-                  color: AppColors.textSecondary,
-                  height: 1.5,
-                ),
-              ),
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: isMobile ? double.infinity : 600,
+                      child: Text(
+                        heroSubtitle,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.inter(
+                          fontSize: isMobile ? 16 : 20,
+                          color: AppColors.textSecondary,
+                          height: 1.5,
+                        ),
+                      ),
+                    ),
+                    if (heroImageUrl.isNotEmpty) ...[
+                      const SizedBox(height: 32),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(18),
+                        child: Image.network(
+                          heroImageUrl,
+                          height: isMobile ? 220 : 320,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, _, __) => const SizedBox(),
+                        ),
+                      ),
+                    ],
+                  ],
+                );
+              },
             ),
             const SizedBox(height: 48),
             Row(

@@ -70,6 +70,11 @@ class Navigation extends StatelessWidget {
                     isActive: currentPage == 'contact',
                     onTap: () => onNavigate('contact'),
                   ),
+                  _NavLink(
+                    label: 'Admin',
+                    isActive: currentPage == 'admin',
+                    onTap: () => onNavigate('admin'),
+                  ),
                 ],
               ),
             if (isMobile)
@@ -156,10 +161,10 @@ class _MobileMenuState extends State<_MobileMenu> {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
-      onSelected: (value) {
+      onSelected: (String value) {
         widget.onNavigate(value);
       },
-      itemBuilder: (context) => [
+      itemBuilder: (context) => <PopupMenuEntry<String>>[
         PopupMenuItem(
           value: 'home',
           child: Text('Home', style: GoogleFonts.inter()),
@@ -179,6 +184,11 @@ class _MobileMenuState extends State<_MobileMenu> {
         PopupMenuItem(
           value: 'contact',
           child: Text('Contact', style: GoogleFonts.inter()),
+        ),
+        const PopupMenuDivider(),
+        PopupMenuItem(
+          value: 'admin',
+          child: Text('Admin', style: GoogleFonts.inter()),
         ),
       ],
       child: Icon(Icons.menu, color: AppColors.textSecondary),
