@@ -6,7 +6,9 @@ import 'package:icons_plus/icons_plus.dart';
 import '../theme.dart';
 
 class AboutPage extends StatelessWidget {
-  const AboutPage({super.key});
+  final Function(String)? onNavigate;
+
+  const AboutPage({Key? key, this.onNavigate}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -244,7 +246,7 @@ class _MissionCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Making technology accessible worldwide',
+                        'Making technology accessible worldwide ',
                         style: GoogleFonts.inter(
                           fontSize: 12,
                           color: AppColors.textTertiary,
