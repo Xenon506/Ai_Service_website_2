@@ -62,7 +62,7 @@ class _HeaderSection extends StatelessWidget {
                     style: GoogleFonts.inter(
                       fontSize: isMobile ? 36 : 48,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.orange,
+                      color: AppColors.borderColor,
                     ),
                   ),
                 ],

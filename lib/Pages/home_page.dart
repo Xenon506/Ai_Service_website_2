@@ -47,14 +47,14 @@ class _HeroSection extends StatelessWidget {
 
     return Container(
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Color.fromARGB(255, 24, 24, 24),
-            Color.fromARGB(255, 4, 3, 2),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        // gradient: LinearGradient(
+        //   colors: [
+        //     Color.fromARGB(255, 24, 24, 24),
+        //     Color.fromARGB(255, 4, 3, 2),
+        //   ],
+        //   begin: Alignment.topLeft,
+        //   end: Alignment.bottomRight,
+        // ),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -70,9 +70,10 @@ class _HeroSection extends StatelessWidget {
                 final hasCustom = snapshot.hasData && snapshot.data != null;
                 final heroTitle =
                     hasCustom && (snapshot.data!['hero_title'] ?? '').isNotEmpty
-                        ? snapshot.data!['hero_title'] as String
-                        : 'Welcome to Dynamic Dazzel';
-                final heroSubtitle = hasCustom &&
+                    ? snapshot.data!['hero_title'] as String
+                    : 'Welcome to Dynamic Dazzel';
+                final heroSubtitle =
+                    hasCustom &&
                         (snapshot.data!['hero_subtitle'] ?? '').isNotEmpty
                     ? snapshot.data!['hero_subtitle'] as String
                     : 'Empowering businesses with cutting-edge AI solutions and innovative services';
@@ -87,7 +88,7 @@ class _HeroSection extends StatelessWidget {
                       style: GoogleFonts.inter(
                         fontSize: isMobile ? 32 : 56,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
+                        color: const Color.fromARGB(255, 124, 148, 199),
                       ),
                     ),
                     const SizedBox(height: 24),
@@ -144,7 +145,9 @@ class _HeroSection extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
+
                       const SizedBox(width: 8),
+
                       // FIX: Use an existing icon instead, since OtherIcons.arrow_right doesn't exist or isn't defined.
                       const Icon(Icons.arrow_forward, size: 20),
                     ],
@@ -206,21 +209,28 @@ class _HomeAboutSection extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'About ',
-                    style: GoogleFonts.inter(
-                      fontSize: isMobile ? 28 : 46,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  RichText(
-                    text: TextSpan(
+
+                  Divider(thickness: 3, color: Colors.black),
+
+
+                  SizedBox(width: 0),
+                  Text.rich(
+                    TextSpan(
                       children: [
+                        TextSpan(
+                          text: 'About ',
+                          style: GoogleFonts.inter(
+                            fontSize: isMobile ? 28 : 56,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
                         TextSpan(
                           text: 'DDE',
                           style: GoogleFonts.inter(
-                            fontSize: isMobile ? 28 : 42,
+                            fontSize: isMobile
+                                ? 28
+                                : 56, // keep same size for alignment
                             fontWeight: FontWeight.bold,
                             color: AppColors.orange,
                           ),
@@ -228,12 +238,13 @@ class _HomeAboutSection extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 24),
+
+                  SizedBox(height: 24),
                   Text(
                     'We are a technology-driven company focused on delivering intelligent AI solutions that help businesses scale, innovate, and stay competitive in a fast-changing digital world.',
                     style: GoogleFonts.inter(
-                      fontSize: 20,
-                      color: AppColors.textTertiary,
+                      fontSize: 22,
+                      color: const Color.fromARGB(255, 68, 72, 80),
                       height: 1.6,
                     ),
                   ),
@@ -241,8 +252,8 @@ class _HomeAboutSection extends StatelessWidget {
                   Text(
                     'From strategy to execution, our team blends deep technical expertise with real business understanding.',
                     style: GoogleFonts.inter(
-                      fontSize: 20,
-                      color: AppColors.textTertiary,
+                      fontSize: 22,
+                      color: const Color.fromARGB(255, 68, 72, 80),
                       height: 1.6,
                     ),
                   ),
@@ -272,29 +283,29 @@ class _HomeAboutSection extends StatelessWidget {
 
             // RIGHT STATS (desktop only)
             if (!isMobile) const SizedBox(width: 48),
-            if (!isMobile)
-              Expanded(
-                flex: 2,
-                child: Container(
-                  padding: const EdgeInsets.all(32),
-                  decoration: BoxDecoration(
-                    color: AppColors.darkBgSecondary,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: AppColors.orange.withValues(alpha: 0.2),
-                    ),
-                  ),
-                  child: Column(
-                    children: const [
-                      _MiniStat(number: '500+', label: 'Projects'),
-                      SizedBox(height: 24),
-                      _MiniStat(number: '200+', label: 'Clients'),
-                      SizedBox(height: 24),
-                      _MiniStat(number: '15+', label: 'Countries'),
-                    ],
-                  ),
-                ),
-              ),
+            // if (!isMobile)
+            //   Expanded(
+            //     flex: 2,
+            //     child: Container(
+            //       padding: const EdgeInsets.all(32),
+            //       decoration: BoxDecoration(
+            //         color: AppColors.darkBgSecondary,
+            //         borderRadius: BorderRadius.circular(12),
+            //         border: Border.all(
+            //           color: AppColors.orange.withValues(alpha: 0.2),
+            //         ),
+            //       ),
+            //       child: Column(
+            //         children: const [
+            //           _MiniStat(number: '500+', label: 'Projects'),
+            //           SizedBox(height: 24),
+            //           _MiniStat(number: '200+', label: 'Clients'),
+            //           SizedBox(height: 24),
+            //           _MiniStat(number: '15+', label: 'Countries'),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
           ],
         ),
       ),
@@ -430,7 +441,9 @@ class _FeatureSection extends StatelessWidget {
                     crossAxisCount: crossAxisCount,
                     crossAxisSpacing: 14,
                     mainAxisSpacing: 14,
-                     childAspectRatio: isMobile ? 2.2 : 1.6, /// 🔥 THIS makes cards small + premium
+                    childAspectRatio: isMobile ? 2.2 : 1.6,
+
+                    /// 🔥 THIS makes cards small + premium
                   ),
                   itemBuilder: (context, index) {
                     final feature = features[index];
@@ -590,7 +603,6 @@ class _HomeBlogSection extends StatelessWidget {
                 ),
               ],
             ),
-            
 
             SizedBox(height: 10),
             TextButton(

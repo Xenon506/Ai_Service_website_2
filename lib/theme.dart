@@ -2,18 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
-  static const Color darkBg = Color(0xFF0F172A);
-  static const Color darkBgSecondary = Color(0xFF111827);
-  static const Color darkBgTertiary = Color(0xFF1F2937);
+  // 🌤 Light SaaS Theme
+  static const Color darkBg = Color(0xFFFFF6ED);           // Main Background
+  static const Color darkBgSecondary = Color(0xFFFFE0C2);  // Section Alternate
+  static const Color darkBgTertiary = Color(0xFFFFFFFF);   // Card Background
+
+  // 🟠 Accent (kept your orange branding intact)
   static const Color orange = Color(0xFFF97316);
   static const Color orangeLight = Color(0xFFFB923C);
   static const Color orangeDark = Color(0xFFEA580C);
-  static const Color textPrimary = Colors.white;
-  static const Color textSecondary = Color(0xFFD1D5DB);
-  static const Color textTertiary = Color(0xFF9CA3AF);
-  static const Color borderColor = Color(0xFF374151);
-  static const Color borderColorLight = Color(0xFF4B5563);
+
+  // 🖤 Text (adjusted for light background)
+  static const Color textPrimary = Color(0xFF111827);
+  static const Color textSecondary = Color(0xFF374151);
+  static const Color textTertiary = Color(0xFF6B7280);
+
+  // 🌫 Softer borders for light theme
+  static const Color borderColor = Color(0xFFE5E7EB);
+  static const Color borderColorLight = Color(0xFFD1D5DB);
 }
+
 
 class AppTheme {
   static ThemeData darkTheme() {
