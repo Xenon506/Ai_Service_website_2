@@ -132,7 +132,7 @@ class _HeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.darkBgSecondary,
+
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: isMobile ? 16 : 48,
@@ -175,8 +175,8 @@ class _HeaderSection extends StatelessWidget {
                 'Get in touch with our team to discuss your project or learn more about our services',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
-                  fontSize: isMobile ? 14 : 18,
-                  color: AppColors.textSecondary,
+                  fontSize: isMobile ? 16 : 22,
+                  color: const Color.fromARGB(255, 12, 13, 15),
                   height: 1.5,
                 ),
               ),
@@ -289,9 +289,11 @@ class _ContactInfoCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      // spacing: 24,
+      spacing: 24,
+      
       children: [
-        const SizedBox(width: 24),
+        Padding(padding: EdgeInsetsGeometry.fromLTRB(0, 0, 20, 0)),
+
         _InfoCard(
           icon: CupertinoIcons.mail,
           title: 'Email Us',
@@ -459,6 +461,7 @@ class _FormCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       padding: const EdgeInsets.all(32),
+      margin:EdgeInsets.all(10),
       child: Form(
         key: formKey,
         child: Column(
@@ -664,18 +667,21 @@ class _SubjectDropdownState extends State<_SubjectDropdown> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      
       children: [
         Text(
           'Subject *',
           style: GoogleFonts.inter(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: AppColors.textPrimary,
+            color: Color.fromARGB(255, 16, 17, 17),
           ),
         ),
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
           initialValue: _selectedValue,
+          iconEnabledColor: Colors.black,
+          dropdownColor: Colors.black,
           items: [
             'General Inquiry',
             'Services Information',
@@ -699,13 +705,13 @@ class _SubjectDropdownState extends State<_SubjectDropdown> {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: AppColors.borderColor,
+                color: const Color.fromARGB(255, 106, 111, 119),
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(
-                color: AppColors.orange,
+                color: Color.fromARGB(255, 185, 131, 93),
                 width: 2,
               ),
             ),

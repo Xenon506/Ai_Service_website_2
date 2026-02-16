@@ -1,4 +1,5 @@
 import 'package:aiservicewebsite/theme.dart';
+import 'package:aiservicewebsite/widgets/footer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,6 +19,7 @@ class BlogPage extends StatelessWidget {
             _BlogFilterBar(isMobile: isMobile),
             _FeaturedBlogSection(isMobile: isMobile),
             _BlogGridSection(isMobile: isMobile),
+            Footer(),
           ],
         ),
       ),

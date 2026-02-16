@@ -19,8 +19,8 @@ class Footer extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Wrap(
-            spacing: 48,
-            runSpacing: 40,
+            spacing: 148,
+            runSpacing:40,
             alignment: WrapAlignment.spaceBetween,
             children: [
               _brandBlock(),
@@ -58,6 +58,10 @@ class Footer extends StatelessWidget {
           const SizedBox(height: 40),
           Divider(color: AppColors.borderColor.withValues(alpha: 0.4)),
           const SizedBox(height: 20),
+          Divider(
+            color: Colors.black26,
+            thickness: 2,
+          ),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,6 +117,9 @@ class Footer extends StatelessWidget {
           _infoRow(Icons.location_on, 'Delhi, India'),
           _infoRow(Icons.email, 'contact@ddeevents.com'),
           _infoRow(Icons.phone, '+91 9625961246, +91 9693856529'),
+          _infoRow(Icons.camera_alt_rounded, 'Instagram'),
+          _infoRow(Icons.dataset_linked_outlined, 'LinkDin'),
+
         ],
       ),
     );

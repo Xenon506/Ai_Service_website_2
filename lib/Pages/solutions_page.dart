@@ -38,13 +38,18 @@ class _HeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.darkBgSecondary,
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 16 : 48,
-          vertical: isMobile ? 40 : 80,
-        ),
-        child: Column(
+  child: Padding(
+    padding: EdgeInsets.symmetric(
+      horizontal: isMobile ? 16 : 48,
+      vertical: isMobile ? 40 : 80,
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+
+        /// Title Row
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'AI ',
@@ -55,48 +60,52 @@ class _HeaderSection extends StatelessWidget {
                 color: AppColors.textPrimary,
               ),
             ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Solutions',
-                    style: GoogleFonts.inter(
-                      fontSize: isMobile ? 36 : 48,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.orange,
-                    ),
-                  ),
-                ],
+            Text(
+              'Solutions',
+              style: GoogleFonts.inter(
+                fontSize: isMobile ? 36 : 48,
+                fontWeight: FontWeight.bold,
+                color: AppColors.orange,
               ),
-            ),
-            const SizedBox(height: 24),
-            SizedBox(
-              width: isMobile ? double.infinity : 700,
-              child: Text(
-                'Cutting-edge artificial intelligence solutions to transform your business operations and drive innovation',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.inter(
-                  fontSize: isMobile ? 14 : 18,
-                  color: AppColors.textSecondary,
-                  height: 1.5,
-                ),
-              ),
-            ),
-            const SizedBox(height: 32),
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: [
-                _TagChip(label: 'Machine Learning'),
-                _TagChip(label: 'Deep Learning'),
-                _TagChip(label: 'Neural Networks'),
-                _TagChip(label: 'AI Automation'),
-              ],
             ),
           ],
         ),
-      ),
-    );
+
+        const SizedBox(height: 24),
+
+        /// Description
+        SizedBox(
+          width: isMobile ? double.infinity : 700,
+          child: Text(
+            'Cutting-edge artificial intelligence solutions to transform your business operations and drive innovation',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.inter(
+              fontSize: isMobile ? 14 : 18,
+              color: AppColors.textSecondary,
+              height: 1.5,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 32),
+
+        /// Tags
+        Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 12,
+          runSpacing: 12,
+          children: const [
+            _TagChip(label: 'Machine Learning'),
+            _TagChip(label: 'Deep Learning'),
+            _TagChip(label: 'Neural Networks'),
+            _TagChip(label: 'AI Automation'),
+          ],
+        ),
+      ],
+    ),
+  ),
+);
+
   }
 }
 
@@ -212,32 +221,8 @@ class _AISolutionsGrid extends StatelessWidget {
         ],
         'category': 'Voice AI',
       },
-      {
-        'icon': CupertinoIcons.settings,
-        'title': 'AI Process Automation',
-        'description':
-            'Intelligent automation that learns and adapts to streamline your business processes.',
-        'capabilities': [
-          'Workflow automation',
-          'Smart routing',
-          'Process optimization',
-          'Task automation'
-        ],
-        'category': 'Automation',
-      },
-      {
-        'icon': Bootstrap.hdd_network,
-        'title': 'AI Integration Services',
-        'description':
-            'Seamlessly integrate AI capabilities into your existing systems and workflows.',
-        'capabilities': [
-          'API development',
-          'System integration',
-          'Model deployment',
-          'Performance monitoring'
-        ],
-        'category': 'Integration',
-      },
+      
+
     ];
 
     return Container(
@@ -251,7 +236,7 @@ class _AISolutionsGrid extends StatelessWidget {
     maxCrossAxisExtent: isMobile ? 600 : 520,
     mainAxisSpacing: 24,
     crossAxisSpacing: 24,
-    mainAxisExtent: isMobile ? null : 420, // 🔑 controls height
+    mainAxisExtent: isMobile ? null : 310, // 🔑 controls height
   ),
   itemCount: solutions.length,
   itemBuilder: (context, index) {
@@ -438,8 +423,8 @@ class _ProcessSection extends StatelessWidget {
       color: AppColors.darkBgSecondary,
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 16 : 48,
-          vertical: isMobile ? 40 : 80,
+          horizontal: isMobile ? 16 :28,
+          vertical: isMobile ? 40 : 30,
         ),
         child: Column(
           children: [
@@ -447,21 +432,21 @@ class _ProcessSection extends StatelessWidget {
               'Our AI Development Process',
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
-                fontSize: isMobile ? 24 : 32,
+                fontSize: isMobile ? 24 : 34,
                 fontWeight: FontWeight.bold,
                 color: AppColors.textPrimary,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 6),
             Text(
               'A proven methodology to deliver successful AI implementations',
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
-                fontSize: isMobile ? 14 : 18,
+                fontSize: isMobile ? 14 : 22,
                 color: AppColors.textSecondary,
               ),
             ),
-            const SizedBox(height: 48),
+            const SizedBox(height: 8),
             GridView.count(
               crossAxisCount: isMobile ? 1 : 4,
               shrinkWrap: true,
@@ -510,7 +495,7 @@ class _ProcessStep extends StatelessWidget {
             child: Text(
               number,
               style: GoogleFonts.inter(
-                fontSize: 24,
+                fontSize: 34,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -532,9 +517,9 @@ class _ProcessStep extends StatelessWidget {
           description,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
-            fontSize: 13,
-            color: AppColors.textTertiary,
-            height: 1.4,
+            fontSize: 18,
+            color: const Color.fromARGB(255, 19, 19, 20),
+            // height: 1.4,
           ),
         ),
       ],

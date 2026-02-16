@@ -37,7 +37,7 @@ class _HeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.darkBgSecondary,
+      // color: AppColors.darkBgSecondary,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: isMobile ? 16 : 48,
@@ -45,38 +45,47 @@ class _HeaderSection extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(
-              'About ',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
-                fontSize: isMobile ? 36 : 48,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Dart Language',
-                    style: GoogleFonts.inter(
-                      fontSize: isMobile ? 36 : 48,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.borderColor,
-                    ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+                Text(
+                  'About ',
+                  // textAlign: TextAlign.center,
+                  style: GoogleFonts.inter(
+                    fontSize: isMobile ? 36 : 48,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
                   ),
-                ],
-              ),
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'DDE',
+                        style: GoogleFonts.inter(
+                          fontSize: isMobile ? 36 : 48,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.orange,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 24),
             Text(
               'Pioneering the future of business technology with innovative AI solutions',
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
-                fontSize: isMobile ? 14 : 18,
+                fontSize: isMobile ? 16 : 22,
                 color: AppColors.textSecondary,
               ),
             ),
+
+            
           ],
         ),
       ),
@@ -100,6 +109,12 @@ class _StorySection extends StatelessWidget {
         ),
         child: Column(
           children: [
+            Divider(
+              thickness: 2,
+              color: Colors.black,
+            ),
+            SizedBox(width: 10,
+            height: 40,),
             if (!isMobile)
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,53 +149,61 @@ class _StoryContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Our ',
-          style: GoogleFonts.inter(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: 'Story',
-                style: GoogleFonts.inter(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.orange,
-                ),
+        Row(
+          children: [
+            Text(
+              'Our ',
+              style: GoogleFonts.inter(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
               ),
-            ],
-          ),
+            ),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Story',
+                    style: GoogleFonts.inter(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.orange,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 24),
         Text(
           'Founded with a vision to democratize artificial intelligence and make cutting-edge technology accessible to businesses of all sizes, Dart Language has grown into a leading provider of AI solutions and services.',
           style: GoogleFonts.inter(
-            fontSize: 14,
+            fontSize: 18,
             color: AppColors.textTertiary,
             height: 1.6,
+            fontWeight: FontWeight.w600
           ),
         ),
         const SizedBox(height: 16),
         Text(
           'Our journey began when a group of passionate technologists recognized the transformative potential of AI and machine learning. We set out to bridge the gap between complex technology and practical business applications.',
           style: GoogleFonts.inter(
-            fontSize: 14,
+            fontSize: 18,
             color: AppColors.textTertiary,
             height: 1.6,
+            fontWeight: FontWeight.w600
+
           ),
         ),
         const SizedBox(height: 16),
         Text(
           'Today, we work with companies across the globe, helping them leverage AI to solve complex challenges, optimize operations, and unlock new opportunities for growth.',
           style: GoogleFonts.inter(
-            fontSize: 14,
+            fontSize: 18,
             color: AppColors.textTertiary,
-            height: 1.6,
+            height: 1.6,   
+            fontWeight: FontWeight.w600
           ),
         ),
       ],

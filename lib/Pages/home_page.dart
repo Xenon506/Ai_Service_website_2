@@ -194,7 +194,7 @@ class _HomeAboutSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.darkBg,
+      color: AppColors.darkBgSecondary,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: isMobile ? 16 : 48,
@@ -209,9 +209,7 @@ class _HomeAboutSection extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
-                  Divider(thickness: 3, color: Colors.black),
-
+                  // Divider(thickness: 3, color: Colors.black),
 
                   SizedBox(width: 0),
                   Text.rich(
@@ -283,6 +281,25 @@ class _HomeAboutSection extends StatelessWidget {
 
             // RIGHT STATS (desktop only)
             if (!isMobile) const SizedBox(width: 48),
+
+            // if (!isMobile)
+            //   Expanded(
+            //     flex: 2,
+            //     child: Container(
+            //       padding: const EdgeInsets.all(32),
+            //       decoration: BoxDecoration(
+            //         color: AppColors.darkBgSecondary,
+            //         borderRadius: BorderRadius.circular(12),
+            //         border: Border.all(
+            //           color: AppColors.orange.withValues(alpha: 0.2),
+            //         ),
+            //       ),
+            //       child: Image.asset('image/assets/ai2.jpeg'),
+            //     ),
+            //   ),
+
+
+
             // if (!isMobile)
             //   Expanded(
             //     flex: 2,
@@ -375,14 +392,14 @@ class _FeatureSection extends StatelessWidget {
 
     return Container(
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Color.fromARGB(255, 31, 31, 32),
-            Color.fromARGB(255, 10, 10, 10),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        // gradient: LinearGradient(
+        //   colors: [
+        //     Color.fromARGB(255, 31, 31, 32),
+        //     Color.fromARGB(255, 10, 10, 10),
+        //   ],
+        //   begin: Alignment.topLeft,
+        //   end: Alignment.bottomRight,
+        // ),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -391,25 +408,35 @@ class _FeatureSection extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Why Choose ',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.inter(
-                    fontSize: isMobile ? 28 : 36,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
+            Divider(
+              color: Colors.black,
+              // height: 3,
+              thickness: 3,
+            ),
+            SizedBox(width: 20, height: 30),
+
+            
+
+
+                Text.rich(
+                  textAlign: TextAlign.start,
+                  TextSpan(
                     children: [
+                     
                       TextSpan(
-                        text: 'Us',
+                        text: 'Why Choose ',
                         style: GoogleFonts.inter(
-                          fontSize: isMobile ? 28 : 36,
+                          fontSize: isMobile ? 28 : 46,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'US',
+                        style: GoogleFonts.inter(
+                          fontSize: isMobile
+                              ? 28
+                              : 46, // keep same size for alignment
                           fontWeight: FontWeight.bold,
                           color: AppColors.orange,
                         ),
@@ -417,8 +444,8 @@ class _FeatureSection extends StatelessWidget {
                     ],
                   ),
                 ),
-              ],
-            ),
+            
+            
 
             const SizedBox(height: 48),
 
@@ -491,7 +518,7 @@ class _FeatureCardState extends State<_FeatureCard> {
         duration: const Duration(milliseconds: 180),
         padding: const EdgeInsets.all(22), // 🔥 more internal space
         decoration: BoxDecoration(
-          color: const Color(0xff1a2433), // 🔥 lighter card bg like screenshot
+          // color: const Color(0xff1a2433), // 🔥 lighter card bg like screenshot
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             width: 1.2, // 🔥 slightly thicker border
@@ -510,7 +537,7 @@ class _FeatureCardState extends State<_FeatureCard> {
                 color: AppColors.orange.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(widget.icon, size: 24, color: AppColors.orange),
+              child: Icon(widget.icon, size: 28, color: AppColors.orange),
             ),
 
             const SizedBox(height: 22),
@@ -742,7 +769,7 @@ class _CTASection extends StatelessWidget {
     final isMobile = MediaQuery.of(context).size.width < 768;
 
     return Container(
-      color: const Color.fromARGB(255, 8, 8, 8),
+      // color: const Color.fromARGB(255, 8, 8, 8),
       width: double.infinity,
       child: Padding(
         padding: EdgeInsets.symmetric(
