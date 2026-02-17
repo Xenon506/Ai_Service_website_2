@@ -1,5 +1,4 @@
 import 'package:aiservicewebsite/widgets/footer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -20,7 +19,7 @@ class SolutionsPage extends StatelessWidget {
       child: Column(
         children: [
           _HeaderSection(isMobile: isMobile),
-          _AISolutionsGrid(isMobile: isMobile),
+          _AISolutionsGrid(isMobile: isMobile, onNavigate: onNavigate),
           _ProcessSection(isMobile: isMobile),
           _CTASection(isMobile: isMobile),
           Footer(),
@@ -138,7 +137,9 @@ class _TagChip extends StatelessWidget {
 class _AISolutionsGrid extends StatelessWidget {
   final bool isMobile;
 
-  const _AISolutionsGrid({required this.isMobile});
+  final Function(String) onNavigate;
+
+  const _AISolutionsGrid({required this.isMobile, required this.onNavigate});
 
   @override
   Widget build(BuildContext context) {
@@ -148,78 +149,84 @@ class _AISolutionsGrid extends StatelessWidget {
         'title': 'Machine Learning Models',
         'description':
             'Custom ML models trained on your data to solve complex business problems and automate decision-making processes.',
+        'page': 'solution_ml_models',
         'capabilities': [
           'Predictive analytics',
           'Pattern recognition',
           'Anomaly detection',
           'Recommendation systems'
         ],
-        'category': 'Core AI',
+        // 'category': 'Core AI',
       },
       {
         'icon': Bootstrap.messenger,
         'title': 'Natural Language Processing',
         'description':
             'Advanced NLP solutions for text analysis, sentiment detection, and conversational AI applications.',
+        'page': 'solution_nlp',
         'capabilities': [
           'Sentiment analysis',
           'Text classification',
           'Entity extraction',
           'Language translation'
         ],
-        'category': 'Language AI',
+        // 'category': 'Language AI',
       },
       {
         'icon': Bootstrap.eye,
         'title': 'Computer Vision',
         'description':
             'Image and video analysis solutions for object detection, facial recognition, and visual inspection.',
+        'page': 'solution_computer_vision',
         'capabilities': [
           'Object detection',
           'Image classification',
           'Facial recognition',
           'Quality inspection'
         ],
-        'category': 'Vision AI',
+        // 'category': 'Vision AI',
       },
       {
         'icon': Bootstrap.bar_chart,
         'title': 'Predictive Analytics',
         'description':
             'Harness the power of AI to forecast trends, optimize operations, and make data-driven decisions.',
+        'page': 'solution_predictive_analytics',
         'capabilities': [
           'Demand forecasting',
           'Risk assessment',
           'Customer churn prediction',
           'Price optimization'
         ],
-        'category': 'Analytics',
+        // 'category': 'Analytics',
       },
       {
         'icon': Bootstrap.file_text,
         'title': 'Document Intelligence',
         'description':
             'Automate document processing with AI-powered extraction, classification, and analysis.',
+        'page': 'solution_document_intelligence',
         'capabilities': [
           'Document classification',
           'Data extraction',
           'Form processing',
           'Invoice automation'
         ],
-        'category': 'Automation',
+        // 'category': 'Automation',
       },
       {
         'icon': Bootstrap.headphones,
         'title': 'Voice AI Solutions',
         'description':
             'Speech recognition and synthesis for voice assistants, transcription, and audio analysis.',
+        'page': 'solution_voice_ai',
         'capabilities': [
           'Speech-to-text',
           'Text-to-speech',
           'Voice recognition',
           'Audio analysis'
         ],
-        'category': 'Voice AI',
+        // 'category': 'Voice AI',
       },
       
 
@@ -246,7 +253,8 @@ class _AISolutionsGrid extends StatelessWidget {
       title: solution['title'] as String,
       description: solution['description'] as String,
       capabilities: solution['capabilities'] as List<String>,
-      category: solution['category'] as String,
+      onTap: () => onNavigate(solution['page'] as String),
+      // category: solution['category'] as String,
     );
   },
 ),
@@ -260,14 +268,16 @@ class _AISolutionCard extends StatefulWidget {
   final String title;
   final String description;
   final List<String> capabilities;
-  final String category;
+  final VoidCallback onTap;
+  // final String category;
 
   const _AISolutionCard({
     required this.icon,
     required this.title,
     required this.description,
     required this.capabilities,
-    required this.category,
+    required this.onTap,
+    // required this.category,
   });
 
   @override
@@ -282,123 +292,133 @@ class _AISolutionCardState extends State<_AISolutionCard> {
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.darkBgSecondary,
-          border: Border.all(
-            color: _isHovered
-                ? AppColors.orange.withValues(alpha: 0.4)
-                : AppColors.orange.withValues(alpha: 0.2),
-          ),
+      cursor: SystemMouseCursors.click,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: widget.onTap,
           borderRadius: BorderRadius.circular(12),
-          boxShadow: _isHovered
-              ? [
-                  BoxShadow(
-                    color: AppColors.orange.withValues(alpha: 0.1),
-                    blurRadius: 12,
-                    spreadRadius: 0,
-                  ),
-                ]
-              : [],
-        ),
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.darkBgSecondary,
+              border: Border.all(
+                color: _isHovered
+                    ? AppColors.orange.withValues(alpha: 0.4)
+                    : AppColors.orange.withValues(alpha: 0.2),
+              ),
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: _isHovered
+                  ? [
+                      BoxShadow(
+                        color: AppColors.orange.withValues(alpha: 0.1),
+                        blurRadius: 12,
+                        spreadRadius: 0,
+                      ),
+                    ]
+                  : [],
+            ),
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: AppColors.orange.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(
-                    widget.icon,
-                    color: AppColors.orange,
-                    size: 28,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: AppColors.orange.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(
+                        widget.icon,
+                        color: AppColors.orange,
+                        size: 28,
+                      ),
+                    ),
+                    Container(
+                      // decoration: BoxDecoration(
+                      //   color: AppColors.darkBgTertiary,
+                      //   border: Border.all(
+                      //     color: AppColors.orange.withValues(alpha: 0.3),
+                      //   ),
+                      //   borderRadius: BorderRadius.circular(20),
+                      // ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
+                      // child: Text(
+                      //   widget.category,
+                      //   style: GoogleFonts.inter(
+                      //     fontSize: 12,
+                      //     color: AppColors.orange,
+                      //     fontWeight: FontWeight.w500,
+                      //   ),
+                      // ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  widget.title,
+                  style: GoogleFonts.inter(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.darkBgTertiary,
-                    border: Border.all(
-                      color: AppColors.orange.withValues(alpha: 0.3),
-                    ),
-                    borderRadius: BorderRadius.circular(20),
+                const SizedBox(height: 12),
+                Text(
+                  widget.description,
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    color: AppColors.textTertiary,
+                    height: 1.5,
                   ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                  child: Text(
-                    widget.category,
-                    style: GoogleFonts.inter(
-                      fontSize: 12,
-                      color: AppColors.orange,
-                      fontWeight: FontWeight.w500,
-                    ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Key Capabilities:',
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    color: AppColors.orange,
+                    fontWeight: FontWeight.w600,
                   ),
+                ),
+                const SizedBox(height: 12),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: widget.capabilities
+                      .map((capability) => Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                width: 4,
+                                height: 4,
+                                decoration: BoxDecoration(
+                                  color: AppColors.orange,
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                capability,
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ],
+                          ))
+                      .toList(),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            Text(
-              widget.title,
-              style: GoogleFonts.inter(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              widget.description,
-              style: GoogleFonts.inter(
-                fontSize: 14,
-                color: AppColors.textTertiary,
-                height: 1.5,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Key Capabilities:',
-              style: GoogleFonts.inter(
-                fontSize: 12,
-                color: AppColors.orange,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: widget.capabilities
-                  .map((capability) => Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 4,
-                            height: 4,
-                            decoration: BoxDecoration(
-                              color: AppColors.orange,
-                              borderRadius: BorderRadius.circular(2),
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            capability,
-                            style: GoogleFonts.inter(
-                              fontSize: 12,
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                        ],
-                      ))
-                  .toList(),
-            ),
-          ],
+          ),
         ),
       ),
     );

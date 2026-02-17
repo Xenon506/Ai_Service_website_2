@@ -318,35 +318,41 @@ class _ValuesSection extends StatelessWidget {
 ];
     return Container(
       color: AppColors.darkBgSecondary,
+      // height: 600,
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 16 : 48,
-          vertical: isMobile ? 40 : 80,
+          horizontal: isMobile ? 16 : 28,
+          vertical: isMobile ? 40 : 20,
         ),
         child: Column(
           children: [
-            Text(
-              'Our ',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
-                fontSize: isMobile ? 28 : 36,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Values',
-                    style: GoogleFonts.inter(
-                      fontSize: isMobile ? 28 : 36,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.orange,
-                    ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Our ',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.inter(
+                    fontSize: isMobile ? 28 : 36,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
                   ),
-                ],
-              ),
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Values',
+                        style: GoogleFonts.inter(
+                          fontSize: isMobile ? 28 : 36,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.orange,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 48),
             GridView.count(
@@ -394,6 +400,7 @@ class _ValueCardState extends State<_ValueCard> {
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: Container(
+        // height:100,
         decoration: BoxDecoration(
           color: AppColors.darkBgTertiary,
           border: Border.all(
@@ -403,13 +410,13 @@ class _ValueCardState extends State<_ValueCard> {
           ),
           borderRadius: BorderRadius.circular(12),
         ),
-        padding: const EdgeInsets.all(24),
+        // padding: const EdgeInsets.all(4),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 56,
-              height: 56,
+              // width: 56,
+              // height: 56,
               decoration: BoxDecoration(
                 color: AppColors.orange.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(28),
@@ -417,7 +424,7 @@ class _ValueCardState extends State<_ValueCard> {
               child: Icon(
                 widget.icon,
                 color: AppColors.orange,
-                size: 28,
+                size: 38,
               ),
             ),
             const SizedBox(height: 16),
@@ -465,40 +472,45 @@ class _ImpactSection extends StatelessWidget {
       color: AppColors.darkBg,
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 16 : 48,
-          vertical: isMobile ? 40 : 80,
+          horizontal: isMobile ? 6 : 8,
+          vertical: isMobile ? 4 : 5,
         ),
         child: Column(
           children: [
-            Text(
-              'Our ',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
-                fontSize: isMobile ? 28 : 36,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Impact',
-                    style: GoogleFonts.inter(
-                      fontSize: isMobile ? 28 : 36,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.orange,
-                    ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Our ',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.inter(
+                    fontSize: isMobile ? 28 : 36,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
                   ),
-                ],
-              ),
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Impact',
+                        style: GoogleFonts.inter(
+                          fontSize: isMobile ? 28 : 36,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.orange,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 48),
+            // const SizedBox(height: 8),
             GridView.count(
               crossAxisCount: isMobile ? 2 : 4,
               shrinkWrap: true,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
+              crossAxisSpacing: 6,
+              mainAxisSpacing: 6,
               childAspectRatio: 1,
               children: stats
                   .map((stat) => _StatCard(
@@ -541,8 +553,8 @@ class _StatCard extends StatelessWidget {
           label,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
-            fontSize: 12,
-            color: AppColors.textTertiary,
+            fontSize: 22,
+            color: const Color.fromARGB(255, 11, 11, 12),
           ),
         ),
       ],

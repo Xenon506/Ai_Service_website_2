@@ -6,136 +6,207 @@ class Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 768;
+    final isMobile = MediaQuery.of(context).size.width < 900;
 
     return Container(
       width: double.infinity,
       color: AppColors.darkBgSecondary,
       padding: EdgeInsets.symmetric(
-        horizontal: isMobile ? 24 : 72,
-        vertical: 48,
+        horizontal: isMobile ? 24 : 140,
+        vertical: 60,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Wrap(
-            spacing: 148,
-            runSpacing:40,
-            alignment: WrapAlignment.spaceBetween,
-            children: [
-              _brandBlock(),
-              _linksBlock(
-                title: 'Quick Links',
-                links: ['Home', 'Blog', 'Announcements', 'Contact'],
-              ),
-              _linksBlock(
-                title: 'About',
-                links: [
-                  'Our Company',
-                  'Our Leadership Team',
-                  'Our Speakers',
-                  'Our Event Highlights',
-                  'Our Partners',
-                ],
-              ),
-              _linksBlock(
-                title: 'Services',
-                links: [
-                  'Conference & Summit',
-                  'Tech Events',
-                  'Concerts',
-                  'Wedding',
-                  'Corporate Events',
-                  'Exhibitions',
-                  'CSR Events',
-                  'Fashion Shows',
-                  'Product Launch',
-                ],
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 40),
-          Divider(color: AppColors.borderColor.withValues(alpha: 0.4)),
-          const SizedBox(height: 20),
-          Divider(
-            color: Colors.black26,
-            thickness: 2,
-          ),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '© 2025 Dynamic Dazzle Entertainment LLP. All Rights Reserved.',
-                style: TextStyle(
-                  color: AppColors.textTertiary,
-                  fontSize: 13,
-                ),
-              ),
-              Text(
-                'Proudly Made in India 🇮🇳',
-                style: TextStyle(
-                  color: AppColors.textPrimary,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 13,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ---------------- BRAND BLOCK ----------------
-
-  Widget _brandBlock() {
-    return SizedBox(
-      width: 320,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Dynamic Dazzle Entertainment LLP',
-            style: TextStyle(
-              color: AppColors.textPrimary,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+
+          /// ----------- TOP LINK SECTIONS -----------
+          Wrap(
+            spacing: 100,
+            runSpacing: 50,
+            children: [
+              _linksBlock(
+                title: "AI",
+                links: [
+                  "JetBrains AI",
+                  "AI Assistant",
+                  "Junie",
+                  "AI in IDEs",
+                  "AI Enterprise",
+                  "AI News",
+                ],
+              ),
+              _linksBlock(
+                title: "Developer Tools",
+                links: [
+                  "All Products",
+                  "IDEs",
+                  ".NET and Visual Studio",
+                  "Team Tools",
+                  "Plugin Marketplace",
+                  "Toolbox App",
+                ],
+              ),
+              _linksBlock(
+                title: "Solutions",
+                links: [
+                  "Business",
+                  "Data",
+                  "IDE Services",
+                  "Remote Development",
+                  "Game Development",
+                  "DevOps",
+                ],
+              ),
+              _linksBlock(
+                title: "Initiatives",
+                links: [
+                  "Kotlin",
+                  "Open Source",
+                  "JetBrains Research",
+                  "JetBrains Mono",
+                  "MPS",
+                ],
+              ),
+              _linksBlock(
+                title: "Education",
+                links: [
+                  "Students",
+                  "Teachers",
+                  "Bootcamps",
+                  "Teams",
+                  "Course Catalog",
+                  "University Programs",
+                ],
+              ),
+              _linksBlock(
+                title: "Store",
+                links: [
+                  "Plans and Pricing",
+                  "All Products Pack",
+                  "dotUltimate",
+                  "Partners and Resellers",
+                  "Customers and Awards",
+                ],
+              ),
+              _linksBlock(
+                title: "Support",
+                links: [
+                  "Technical Support",
+                  "Contact Sales",
+                  "Documentation",
+                  "JetBrains Account",
+                ],
+              ),
+              _linksBlock(
+                title: "Resources",
+                links: [
+                  "Blog",
+                  "Early Access",
+                  "Events and Livestreams",
+                  "Newsletters",
+                  "Industry Reports",
+                  "Inspectopedia",
+                  "Desktop Art",
+                ],
+              ),
+              _linksBlock(
+                title: "Community",
+                links: [
+                  "User Groups",
+                  "Open-Source Partnerships",
+                  "Developer Recognition",
+                  "Content Creators",
+                ],
+              ),
+              _linksBlock(
+                title: "Company",
+                links: [
+                  "About",
+                  "Contacts",
+                  "Careers",
+                  "Brand Assets",
+                  "Merchandise",
+                  "Trust Center",
+                ],
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
+
+          const SizedBox(height: 60),
+
+          Divider(
+            color: const Color.fromARGB(255, 12, 12, 13).withValues(alpha: 0.3),
+            thickness: 2,
+          ),
+
+          const SizedBox(height: 30),
+
+          /// ----------- SOCIAL + LEGAL SECTION -----------
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+
+              /// Social Icons
+              Row(
+                children: [
+                  _socialIcon(Icons.facebook),
+                  _socialIcon(Icons.close), // X
+                  _socialIcon(Icons.linked_camera), // LinkedIn alt
+                  _socialIcon(Icons.play_circle_fill), // YouTube
+                  _socialIcon(Icons.camera_alt), // Instagram
+                  _socialIcon(Icons.music_note), // TikTok
+                  _socialIcon(Icons.rss_feed),
+                ],
+              ),
+
+              /// Country + Language
+              Row(
+                children: [
+                  Icon(Icons.public,
+                      size: 18, color: AppColors.textTertiary),
+                  const SizedBox(width: 6),
+                  Text("India",
+                      style: TextStyle(
+                          color: AppColors.textTertiary,
+                          fontSize: 14)),
+                  const SizedBox(width: 24),
+                  Icon(Icons.language,
+                      size: 18, color: AppColors.textTertiary),
+                  const SizedBox(width: 6),
+                  Text("English",
+                      style: TextStyle(
+                          color: AppColors.textTertiary,
+                          fontSize: 14)),
+                ],
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 25),
+          
+          /// Bottom Legal Links
+          Wrap(
+            spacing: 20,
+            runSpacing: 10,
+            children: [
+              _bottomLink("Privacy and Security"),
+              _bottomLink("Privacy Notice"),
+              _bottomLink("Terms of Use"),
+              _bottomLink("Attributions"),
+              _bottomLink("Legal"),
+              _bottomLink("Genuine Tools"),
+              _bottomLink("Opt-Out"),
+            ],
+          ),
+
+          const SizedBox(height: 25),
+
+          /// Copyright
           Text(
-            'A Delhi-based event management company delivering impactful, '
-            'technology-driven, and seamlessly executed event experiences across India.',
+            "Copyright © 2000–2026 JetBrains s.r.o.",
             style: TextStyle(
               color: AppColors.textTertiary,
-              height: 1.6,
-            ),
-          ),
-          const SizedBox(height: 20),
-          _infoRow(Icons.location_on, 'Delhi, India'),
-          _infoRow(Icons.email, 'contact@ddeevents.com'),
-          _infoRow(Icons.phone, '+91 9625961246, +91 9693856529'),
-          _infoRow(Icons.camera_alt_rounded, 'Instagram'),
-          _infoRow(Icons.dataset_linked_outlined, 'LinkDin'),
-
-        ],
-      ),
-    );
-  }
-
-  Widget _infoRow(IconData icon, String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Row(
-        children: [
-          Icon(icon, size: 16, color: AppColors.textTertiary),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(color: AppColors.textTertiary),
+              fontSize: 13,
             ),
           ),
         ],
@@ -150,7 +221,7 @@ class Footer extends StatelessWidget {
     required List<String> links,
   }) {
     return SizedBox(
-      width: 220,
+      width: 200,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -159,7 +230,7 @@ class Footer extends StatelessWidget {
             style: TextStyle(
               color: AppColors.textPrimary,
               fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontSize: 15,
             ),
           ),
           const SizedBox(height: 16),
@@ -176,6 +247,29 @@ class Footer extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  // ---------------- SOCIAL ICON ----------------
+
+  Widget _socialIcon(IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 18),
+      child: Icon(
+        icon,
+        size: 20,
+        color: AppColors.textTertiary,
+      ),
+    );
+  }
+
+  Widget _bottomLink(String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        color: AppColors.textTertiary,
+        fontSize: 13,
       ),
     );
   }

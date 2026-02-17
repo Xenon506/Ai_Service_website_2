@@ -408,11 +408,7 @@ class _FeatureSection extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Divider(
-              color: Colors.black,
-              // height: 3,
-              thickness: 3,
-            ),
+            
             SizedBox(width: 20, height: 30),
 
             
@@ -606,7 +602,7 @@ class _HomeBlogSection extends StatelessWidget {
     ];
 
     return Container(
-      color: AppColors.darkBgSecondary,
+      // color: AppColors.darkBgSecondary,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: isMobile ? 16 : 48,
@@ -616,6 +612,9 @@ class _HomeBlogSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             /// HEADER
+            DecoratedBox(decoration: BoxDecoration(
+              color: Colors.orange
+            )),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               // mainAxisSize: MainAxisSize.min,
@@ -692,7 +691,7 @@ class _BlogCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _FeatureCard(icon: icon, title: title, description: description);
-  }
+  }           
 }
 
 class _HomeBlogCard extends StatelessWidget {
@@ -711,9 +710,10 @@ class _HomeBlogCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      // color: Colors.white,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.darkBgTertiary,
+        // color: const Color.fromARGB(255, 250, 250, 250),
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: AppColors.borderColor),
       ),
@@ -723,7 +723,7 @@ class _HomeBlogCard extends StatelessWidget {
           Text(
             tag,
             style: GoogleFonts.inter(
-              color: AppColors.orange,
+              color: const Color.fromARGB(255, 235, 226, 221),
               fontWeight: FontWeight.w600,
               fontSize: 13,
             ),

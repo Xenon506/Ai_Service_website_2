@@ -1,5 +1,11 @@
 import 'package:aiservicewebsite/Pages/blogs_page.dart';
 import 'package:aiservicewebsite/Pages/admin_page.dart';
+import 'package:aiservicewebsite/Pages/solution_computer_vision_page.dart';
+import 'package:aiservicewebsite/Pages/solution_document_intelligence_page.dart';
+import 'package:aiservicewebsite/Pages/solution_machine_learning_models_page.dart';
+import 'package:aiservicewebsite/Pages/solution_natural_language_processing_page.dart';
+import 'package:aiservicewebsite/Pages/solution_predictive_analytics_page.dart';
+import 'package:aiservicewebsite/Pages/solution_voice_ai_page.dart';
 import 'package:flutter/material.dart';
 import 'theme.dart';
 import 'widgets/navigation.dart';
@@ -57,6 +63,18 @@ class _MainPageState extends State<MainPage> {
         return BlogPage(onNavigate: _navigateTo);
       case 'solutions':
         return SolutionsPage(onNavigate: _navigateTo);
+      case 'solution_ml_models':
+        return MachineLearningModelsPage(onNavigate: _navigateTo);
+      case 'solution_nlp':
+        return NaturalLanguageProcessingPage(onNavigate: _navigateTo);
+      case 'solution_computer_vision':
+        return ComputerVisionPage(onNavigate: _navigateTo);
+      case 'solution_predictive_analytics':
+        return PredictiveAnalyticsPage(onNavigate: _navigateTo);
+      case 'solution_document_intelligence':
+        return DocumentIntelligencePage(onNavigate: _navigateTo);
+      case 'solution_voice_ai':
+        return VoiceAISolutionsPage(onNavigate: _navigateTo);
       case 'contact':
         return ContactPage(onNavigate: _navigateTo);
       case 'about':
