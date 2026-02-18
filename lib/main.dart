@@ -1,5 +1,13 @@
 import 'package:aiservicewebsite/Pages/blogs_page.dart';
 import 'package:aiservicewebsite/Pages/admin_page.dart';
+import 'package:aiservicewebsite/Pages/blog_pages/blog_ai_first_saas_architecture_page.dart';
+import 'package:aiservicewebsite/Pages/blog_pages/blog_ai_saas_platform_page.dart';
+import 'package:aiservicewebsite/Pages/blog_pages/blog_event_driven_ml_page.dart';
+import 'package:aiservicewebsite/Pages/blog_pages/blog_flutter_web_dashboards_page.dart';
+import 'package:aiservicewebsite/Pages/blog_pages/blog_mlops_checklist_page.dart';
+import 'package:aiservicewebsite/Pages/blog_pages/blog_mvp_to_scalable_ai_page.dart';
+import 'package:aiservicewebsite/Pages/blog_pages/blog_pricing_ai_saas_page.dart';
+import 'package:aiservicewebsite/Pages/blog_pages/blog_production_ai_apis_page.dart';
 import 'package:aiservicewebsite/Pages/solution_computer_vision_page.dart';
 import 'package:aiservicewebsite/Pages/solution_document_intelligence_page.dart';
 import 'package:aiservicewebsite/Pages/solution_machine_learning_models_page.dart';
@@ -61,6 +69,22 @@ class _MainPageState extends State<MainPage> {
         return HomePage(onNavigate: _navigateTo);
       case 'blogs':
         return BlogPage(onNavigate: _navigateTo);
+      case 'blog_ai_saas_platform':
+        return BlogAiSaasPlatformPage(onNavigate: _navigateTo);
+      case 'blog_production_ai_apis':
+        return BlogProductionAiApisPage(onNavigate: _navigateTo);
+      case 'blog_ai_first_saas_architecture':
+        return BlogAiFirstSaasArchitecturePage(onNavigate: _navigateTo);
+      case 'blog_mvp_to_scalable_ai':
+        return BlogMvpToScalableAiPage(onNavigate: _navigateTo);
+      case 'blog_pricing_ai_saas':
+        return BlogPricingAiSaasPage(onNavigate: _navigateTo);
+      case 'blog_flutter_web_dashboards':
+        return BlogFlutterWebDashboardsPage(onNavigate: _navigateTo);
+      case 'blog_event_driven_ml':
+        return BlogEventDrivenMlPage(onNavigate: _navigateTo);
+      case 'blog_mlops_checklist':
+        return BlogMlopsChecklistPage(onNavigate: _navigateTo);
       case 'solutions':
         return SolutionsPage(onNavigate: _navigateTo);
       case 'solution_ml_models':

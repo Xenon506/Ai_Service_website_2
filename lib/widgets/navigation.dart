@@ -16,6 +16,10 @@ class Navigation extends StatelessWidget {
     return page == 'solutions' || page.startsWith('solution_');
   }
 
+  bool _isBlogsSection(String page) {
+    return page == 'blogs' || page.startsWith('blog_');
+  }
+
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
@@ -56,7 +60,7 @@ class Navigation extends StatelessWidget {
                   ),
                   _NavLink(
                     label: 'Blogs',
-                    isActive: currentPage == 'blogs',
+                    isActive: _isBlogsSection(currentPage),
                     onTap: () => onNavigate('blogs'),
                   ),
                   _NavLink(

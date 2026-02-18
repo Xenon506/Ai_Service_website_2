@@ -5,7 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 /// ================= BLOG PAGE =================
 class BlogPage extends StatelessWidget {
-  const BlogPage({super.key, required void Function(String page) onNavigate});
+  final Function(String) onNavigate;
+
+  const BlogPage({
+    super.key,
+    required this.onNavigate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +22,8 @@ class BlogPage extends StatelessWidget {
           children: [
             _BlogHeroSection(isMobile: isMobile),
             _BlogFilterBar(isMobile: isMobile),
-            _FeaturedBlogSection(isMobile: isMobile),
-            _BlogGridSection(isMobile: isMobile),
+            _FeaturedBlogSection(isMobile: isMobile, onNavigate: onNavigate),
+            _BlogGridSection(isMobile: isMobile, onNavigate: onNavigate),
             Footer(),
           ],
         ),
@@ -121,7 +126,12 @@ class _BlogFilterBar extends StatelessWidget {
 /// ================= FEATURED BLOG =================
 class _FeaturedBlogSection extends StatelessWidget {
   final bool isMobile;
-  const _FeaturedBlogSection({required this.isMobile});
+  final Function(String) onNavigate;
+
+  const _FeaturedBlogSection({
+    required this.isMobile,
+    required this.onNavigate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -138,13 +148,19 @@ class _FeaturedBlogSection extends StatelessWidget {
         child: isMobile
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  _FeaturedText(),
+                children: [
+                  _FeaturedText(
+                    onRead: () => onNavigate('blog_ai_saas_platform'),
+                  ),
                 ],
               )
             : Row(
-                children: const [
-                  Expanded(child: _FeaturedText()),
+                children: [
+                  Expanded(
+                    child: _FeaturedText(
+                      onRead: () => onNavigate('blog_ai_saas_platform'),
+                    ),
+                  ),
                 ],
               ),
       ),
@@ -153,7 +169,9 @@ class _FeaturedBlogSection extends StatelessWidget {
 }
 
 class _FeaturedText extends StatelessWidget {
-  const _FeaturedText();
+  final VoidCallback onRead;
+
+  const _FeaturedText({required this.onRead});
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +203,10 @@ class _FeaturedText extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 18),
-        ElevatedButton(onPressed: () {}, child: const Text("Read Article"))
+        ElevatedButton(
+          onPressed: onRead,
+          child: const Text("Read Article"),
+        ),
       ],
     );
   }
@@ -194,11 +215,81 @@ class _FeaturedText extends StatelessWidget {
 /// ================= BLOG GRID =================
 class _BlogGridSection extends StatelessWidget {
   final bool isMobile;
-  const _BlogGridSection({required this.isMobile});
+  final Function(String) onNavigate;
+
+  const _BlogGridSection({
+    required this.isMobile,
+    required this.onNavigate,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final blogs = List.generate(8, (i) => i);
+    final blogs = [
+      {
+        "category": "Case Study",
+        "title": "How We Built an Enterprise AI SaaS Platform",
+        "description":
+            "Architecture, scaling strategies, and real lessons from building on Flutter & Supabase.",
+        "readTime": "10 min read",
+        "page": "blog_ai_saas_platform",
+      },
+      {
+        "category": "AI Engineering",
+        "title": "Building Production Ready AI APIs",
+        "description":
+            "Lessons from deploying AI systems used by thousands of users in real startups.",
+        "readTime": "6 min read",
+        "page": "blog_production_ai_apis",
+      },
+      {
+        "category": "Architecture",
+        "title": "Designing AI-First SaaS Architectures",
+        "description":
+            "Key patterns for data, services, and models in AI-heavy products.",
+        "readTime": "8 min read",
+        "page": "blog_ai_first_saas_architecture",
+      },
+      {
+        "category": "Startups",
+        "title": "From MVP to Scalable AI Product",
+        "description":
+            "How to evolve from quick prototypes to robust production systems.",
+        "readTime": "7 min read",
+        "page": "blog_mvp_to_scalable_ai",
+      },
+      {
+        "category": "SaaS",
+        "title": "Pricing AI Features in B2B SaaS",
+        "description":
+            "Models for packaging and charging for AI capabilities sustainably.",
+        "readTime": "5 min read",
+        "page": "blog_pricing_ai_saas",
+      },
+      {
+        "category": "Flutter",
+        "title": "Optimizing Flutter Web for Dashboards",
+        "description":
+            "Performance techniques for analytics-heavy admin and client portals.",
+        "readTime": "9 min read",
+        "page": "blog_flutter_web_dashboards",
+      },
+      {
+        "category": "Backend",
+        "title": "Event-Driven Pipelines for Machine Learning",
+        "description":
+            "Designing streaming and batch flows that keep models fresh and reliable.",
+        "readTime": "11 min read",
+        "page": "blog_event_driven_ml",
+      },
+      {
+        "category": "Operations",
+        "title": "MLOps Checklists for Small Teams",
+        "description":
+            "Practical guardrails for monitoring, alerts, and incident response.",
+        "readTime": "6 min read",
+        "page": "blog_mlops_checklist",
+      },
+    ];
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -222,9 +313,15 @@ class _BlogGridSection extends StatelessWidget {
             runSpacing: spacing,
             children: blogs
                 .map(
-                  (_) => SizedBox(
+                  (blog) => SizedBox(
                     width: itemWidth,
-                    child: const _BlogCard(),
+                    child: _BlogCard(
+                      category: blog["category"] as String,
+                      title: blog["title"] as String,
+                      description: blog["description"] as String,
+                      readTime: blog["readTime"] as String,
+                      onTap: () => onNavigate(blog["page"] as String),
+                    ),
                   ),
                 )
                 .toList(),
@@ -237,53 +334,73 @@ class _BlogGridSection extends StatelessWidget {
 
 /// ================= BLOG CARD =================
 class _BlogCard extends StatelessWidget {
-  const _BlogCard();
+  final String category;
+  final String title;
+  final String description;
+  final String readTime;
+  final VoidCallback onTap;
+
+  const _BlogCard({
+    required this.category,
+    required this.title,
+    required this.description,
+    required this.readTime,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: AppColors.darkBgSecondary,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.borderColor),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "AI Engineering",
-            style: GoogleFonts.inter(
-              color: AppColors.orange,
-              fontWeight: FontWeight.w600,
-            ),
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: AppColors.darkBgSecondary,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.borderColor),
           ),
-          const SizedBox(height: 10),
-          Text(
-            "Building Production Ready AI APIs",
-            style: GoogleFonts.inter(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                category,
+                style: GoogleFonts.inter(
+                  color: AppColors.orange,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                title,
+                style: GoogleFonts.inter(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                description,
+                style: GoogleFonts.inter(
+                  color: AppColors.textSecondary,
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                readTime,
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  color: AppColors.textTertiary,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 8),
-          Text(
-            "Lessons from deploying AI systems used by thousands of users in real startups.",
-            style: GoogleFonts.inter(
-              color: AppColors.textSecondary,
-              height: 1.5,
-            ),
-          ),
-          Text(
-            "6 min read",
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              color: AppColors.textTertiary,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aiservicewebsite/services/supabase_service.dart';
 import 'package:aiservicewebsite/widgets/footer.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,9 +26,37 @@ class _ContactPageState extends State<ContactPage> {
   final _subjectController = TextEditingController();
   final _messageController = TextEditingController();
 
+  final _carouselController = PageController(viewportFraction: 0.86);
+  Timer? _carouselTimer;
+  int _carouselIndex = 0;
+
   bool _isLoading = false;
   String? _successMessage;
   String? _errorMessage;
+
+  // static const _carouselImageUrls = <String>[
+  //   'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1600&q=80',
+  //   'https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1600&q=80',
+  //   'https://images.unsplash.com/photo-1526378722484-bd91ca387e72?auto=format&fit=crop&w=1600&q=80',
+  //   'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=80',
+  //   'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1600&q=80',
+  // ];
+
+  @override
+  void initState() {
+    super.initState();
+    _carouselTimer = Timer.periodic(const Duration(seconds: 4), (_) {
+      if (!mounted) return;
+      if (!_carouselController.hasClients) return;
+
+      // _carouselIndex = (_carouselIndex + 1) % _carouselImageUrls.length;
+      _carouselController.animateToPage(
+        _carouselIndex,
+        duration: const Duration(milliseconds: 550),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
 
   @override
   void dispose() {
@@ -35,6 +65,8 @@ class _ContactPageState extends State<ContactPage> {
     _phoneController.dispose();
     _subjectController.dispose();
     _messageController.dispose();
+    _carouselTimer?.cancel();
+    _carouselController.dispose();
     super.dispose();
   }
 
@@ -95,6 +127,11 @@ class _ContactPageState extends State<ContactPage> {
       child: Column(
         children: [
           _HeaderSection(isMobile: isMobile),
+          // _AutoScrollingImagesSection(
+            // isMobile: isMobile,
+            // controller: _carouselController,
+            // imageUrls: _carouselImageUrls,
+          // ),
           _ContactSection(
             isMobile: isMobile,
             nameController: _nameController,
@@ -109,15 +146,6 @@ class _ContactPageState extends State<ContactPage> {
             formKey: _formKey,
           ),
           Footer(),
-
-
-          // your page content
-          Text("Contact Page"),
-ElevatedButton(
-  onPressed: () {
-    if (widget.onNavigate != null) widget.onNavigate!("home");
-  },
-  child: Text("Go Home"),),
         ],
       ),
     );
@@ -281,86 +309,256 @@ class _ContactSection extends StatelessWidget {
   }
 }
 
+class _AutoScrollingImagesSection extends StatelessWidget {
+  final bool isMobile;
+  final PageController controller;
+  final List<String> imageUrls;
+
+  const _AutoScrollingImagesSection({
+    required this.isMobile,
+    required this.controller,
+    required this.imageUrls,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final height = isMobile ? 150.0 : 220.0;
+    final radius = BorderRadius.circular(10);
+
+    return Container(
+      color: AppColors.darkBg,
+      padding: EdgeInsets.only(
+        left: isMobile ? 8 : 16,
+        right: isMobile ? 8 : 16,
+        bottom: isMobile ? 16 : 28,
+      ),
+      child: SizedBox(
+        height: height,
+        child: PageView.builder(
+          controller: controller,
+          itemCount: imageUrls.length,
+          itemBuilder: (context, index) {
+            final url = imageUrls[index];
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: ClipRRect(
+                borderRadius: radius,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: AppColors.darkBgSecondary,
+                    border: Border.all(color: AppColors.borderColor),
+                    borderRadius: radius,
+                  ),
+                  child: Image.network(
+                    url,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              AppColors.orange.withValues(alpha: 0.8),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Center(
+                        child: Icon(
+                          Icons.image_not_supported_outlined,
+                          color: AppColors.textTertiary,
+                          size: 26,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
 class _ContactInfoCards extends StatelessWidget {
   final bool isMobile;
 
   const _ContactInfoCards({required this.isMobile});
 
+  Widget _wrapCard(Widget child) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: isMobile ? double.infinity : 420,
+        ),
+        child: child,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: 24,
+      spacing: 14,
       
       children: [
         Padding(padding: EdgeInsetsGeometry.fromLTRB(0, 0, 20, 0)),
 
-        _InfoCard(
-          icon: CupertinoIcons.mail,
-          title: 'Email Us',
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'info@dartlanguage.com',
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  color: AppColors.textTertiary,
+        _wrapCard(
+          _InfoCard(
+            icon: CupertinoIcons.mail,
+            title: 'Email Us',
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'info@dartlanguage.com',
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    color: AppColors.textTertiary,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              Text(
-                'support@dartlanguage.com',
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  color: AppColors.textTertiary,
+                Text(
+                  'support@dartlanguage.com',
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    color: AppColors.textTertiary,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-        _InfoCard(
-          icon: Bootstrap.phone,
-          title: 'Call Us',
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '+1 (555) 123-4567',
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  color: AppColors.textTertiary,
+        _wrapCard(
+          _InfoCard(
+            icon: Bootstrap.phone,
+            title: 'Call Us',
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '+1 (555) 123-4567',
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    color: AppColors.textTertiary,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              Text(
-                'Mon-Fri, 9am-6pm EST',
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  color: AppColors.textTertiary,
+                Text(
+                  'Mon-Fri, 9am-6pm EST',
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    color: AppColors.textTertiary,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-        _InfoCard(
-          icon: CupertinoIcons.map_pin,
-          title: 'Visit Us',
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '123 Tech Street',
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  color: AppColors.textTertiary,
+        _wrapCard(
+          _InfoCard(
+            icon: CupertinoIcons.map_pin,
+            title: 'Visit Us',
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '123 Tech Street',
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    color: AppColors.textTertiary,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              Text(
-                'Silicon Valley, CA 94025',
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  color: AppColors.textTertiary,
+                Text(
+                  'Silicon Valley, CA 94025',
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    color: AppColors.textTertiary,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+          ),
+        ),
+        _wrapCard(
+          Container(
+            decoration: BoxDecoration(
+              color: AppColors.darkBgSecondary,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: AppColors.orange.withValues(alpha: 0.2)),
+            ),
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Our Leaders',
+                  style: GoogleFonts.inter(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Image.network(
+                      'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80',
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: SizedBox(
+                            width: 22,
+                            height: 22,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                AppColors.orange.withValues(alpha: 0.8),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return Center(
+                          child: Icon(
+                            Icons.image_not_supported_outlined,
+                            color: AppColors.textTertiary,
+                            size: 26,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Meet the team driving product and engineering excellence.',
+                  style: GoogleFonts.inter(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                    height: 1.4,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -385,39 +583,39 @@ class _InfoCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.darkBgSecondary,
         border: Border.all(color: AppColors.orange.withValues(alpha: 0.2)),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
       ),
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               Container(
-                width: 48,
-                height: 48,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                   color: AppColors.orange.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(6),
                 ),
                 child: Icon(
                   icon,
                   color: AppColors.orange,
-                  size: 24,
+                  size: 20,
                 ),
               ),
               const SizedBox(width: 16),
               Text(
                 title,
                 style: GoogleFonts.inter(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: AppColors.textPrimary,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 10),
           content,
         ],
       ),
@@ -458,7 +656,7 @@ class _FormCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.darkBgSecondary,
         border: Border.all(color: AppColors.orange.withValues(alpha: 0.2)),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
       ),
       padding: const EdgeInsets.all(32),
       margin:EdgeInsets.all(10),
@@ -470,7 +668,7 @@ class _FormCard extends StatelessWidget {
             Text(
               'Send us a Message',
               style: GoogleFonts.inter(
-                fontSize: 20,
+                fontSize: 26,
                 fontWeight: FontWeight.bold,
                 color: AppColors.textPrimary,
               ),
@@ -606,8 +804,8 @@ class _FormField extends StatelessWidget {
         Text(
           label,
           style: GoogleFonts.inter(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
             color: AppColors.textPrimary,
           ),
         ),
@@ -618,7 +816,7 @@ class _FormField extends StatelessWidget {
           maxLines: maxLines,
           validator: validator,
           style: GoogleFonts.inter(
-            fontSize: 14,
+            fontSize: 16,
             color: AppColors.textPrimary,
           ),
           decoration: InputDecoration(

@@ -602,7 +602,7 @@ class _HomeBlogSection extends StatelessWidget {
     ];
 
     return Container(
-      // color: AppColors.darkBgSecondary,
+      color: AppColors.orange.withValues(alpha: 0.22),
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: isMobile ? 16 : 48,
@@ -612,9 +612,6 @@ class _HomeBlogSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             /// HEADER
-            DecoratedBox(decoration: BoxDecoration(
-              color: Colors.orange
-            )),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               // mainAxisSize: MainAxisSize.min,
@@ -632,7 +629,7 @@ class _HomeBlogSection extends StatelessWidget {
 
             SizedBox(height: 10),
             TextButton(
-              onPressed: () => onNavigate('blog'),
+              onPressed: () => onNavigate('blogs'),
               child: Text(
                 "View All",
                 style: GoogleFonts.inter(
@@ -690,7 +687,50 @@ class _BlogCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _FeatureCard(icon: icon, title: title, description: description);
+    return Container(
+      padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+color: AppColors.darkBgTertiary,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          width: 1.2,
+          color: AppColors.orange.withValues(alpha: 0.35),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 52,
+            height: 52,
+            decoration: BoxDecoration(
+              color: AppColors.orange.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Icon(icon, size: 28, color: AppColors.orange),
+          ),
+          const SizedBox(height: 22),
+          Text(
+            title,
+            style: GoogleFonts.inter(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            description,
+            style: GoogleFonts.inter(
+              fontSize: 15,
+              height: 1.5,
+              color: AppColors.textSecondary,
+            ),
+          ),
+        ],
+      ),
+    );
   }           
 }
 
