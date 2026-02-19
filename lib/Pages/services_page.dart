@@ -118,6 +118,7 @@ class _ServicesGrid extends StatelessWidget {
           'Full-stack development',
           'API integration',
           'Code optimization',
+          
           'Technical consulting'
         ],
       },
