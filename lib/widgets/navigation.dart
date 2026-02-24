@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme.dart';
 
+// navigation should be more concise and clickable 
 class Navigation extends StatelessWidget {
   final String currentPage;
   final Function(String) onNavigate;
