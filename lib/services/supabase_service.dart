@@ -87,6 +87,7 @@ class SupabaseService {
 
   Future<void> deleteEvent({required dynamic id}) async {
     await client.from('events').delete().eq('id', id);
+    
   }
 }
 
