@@ -22,7 +22,7 @@ class BlogPage extends StatelessWidget {
           children: [
             _BlogHeroSection(isMobile: isMobile),
             _BlogFilterBar(isMobile: isMobile),
-            _FeaturedBlogSection(isMobile: isMobile, onNavigate: onNavigate),
+            _FeaturedBlogSection(isMobile: isMobile, onNavigate: onNavigate) ,
             _BlogGridSection(isMobile: isMobile, onNavigate: onNavigate),
             Footer(),
           ],
